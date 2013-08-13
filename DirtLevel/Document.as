@@ -11,18 +11,43 @@
 	 */
 	public class Document extends Sprite
 	{
-		//Layers
-		public var floorLayer:Sprite;
-		public var bulletLayer:Sprite;
-		public var environmentLayer:Sprite;
-		public var platformLayer:Sprite;
+		//Layers - Handles proper depth of all art on screen
+		public var landscapeLayer:Sprite; //Clouds, Mountains
+		public var backgroundLayer:Sprite; //Open space for other details
+		public var midgroundLayer:Sprite; // Building Fronts
+		public var detailLayer:Sprite; // Non-entities (Lamp Posts, non-interactable art)
+		public var platformLayer:Sprite; // Interactable Art (Boxes, Barrels)
+		public var entityLayer:Sprite; // Player, enemies, bullets
+		public var foregroundLayer:Sprite; // Deatils infront of everything else (Flowers, Dust Clouds)
+		
+		//Lists for Layers - Gives us access to the data to move art on screen
+		public var landscapeList:Array;
+		public var landscapeShift:Number = .10; 
+		
+		public var backgroundList:Array;
+		public var backgroundShift:Number = .25; 		
+		
+		public var midgroundList:Array;
+		public var midgroundShift:Number = .5;
+		
+		public var detailList:Array;
+		public var detailShift:Number = .75; 		
+		
+		public var platformList:Array; //Holds all Platforms and interactable objects
+		public var platformShift:Number = .75;
+		
+		public var entityList:Array;		
+		
+		public var foregroundList:Array;
+		public var foregroundShift:Number = 1.25;
+		
 		
 		//MASTER VARIABLES
 		public var gameObjectList:Array;
 		public var _environmentList:Array; //Holds references to Art Assests and non interacatable objects
-		public var platformList:Array;  //Holds all Platforms and interactable objects
 		public var temp:Number;
 		public var weaponList:Array;
+		
 		
 		//Game Objects
 		public var testBlock:GameObject;
@@ -61,40 +86,57 @@
 			_lastTime = getTimer( );
 			
 			//create layers
-			floorLayer = new Sprite();
-			bulletLayer = new Sprite();
-			platformLayer = new Sprite();
-			environmentLayer = new Sprite();
+			landscapeLayer =  new Sprite(); //Clouds, Mountains
+			backgroundLayer =  new Sprite(); //Open space for other details
+			midgroundLayer = new Sprite(); // Building Fronts
+			detailLayer = new Sprite(); // Non-entities (Lamp Posts, non-interactable art)
+			platformLayer = new Sprite(); // Interactable Art (Boxes, Barrels)
+			entityLayer = new Sprite(); // Player, enemies, bullets
+			foregroundLayer = new Sprite(); // Deatils infront of everything else (Flowers, Dust Clouds)
 			
 			//add layers as children
-			addChild(floorLayer);
-			addChild(bulletLayer);
+			
+			
+			addChild(landscapeLayer);
+			addChild(backgroundLayer);
+			addChild(midgroundLayer);
+			addChild(detailLayer);
 			addChild(platformLayer);
+			addChild(entityLayer);
+			addChild(foregroundLayer);
 			
 			//game Objects
 			gameObjectList = new Array();
 			weaponList = new Array();
 			_environmentList = new Array();
+			
+			landscapeList = new Array();
+			backgroundList = new Array();
+			midgroundList = new Array();
+			detailList = new Array();
 			platformList = new Array();
+			entityList = new Array();
+			foregroundList = new Array();
+			
 			//floorFiller();
 			//EXAMPLE FORMAT:
 			// X = new X();
 			// push it onto the gameObjectList
 			// child it to the appropriate layer
-			testBlock = new GameObject(350, 0);
-			gameObjectList.push(testBlock);
-			addChild(testBlock);
+			//testBlock = new GameObject(350, 0);
+			//gameObjectList.push(testBlock);
+			//addChild(testBlock);
 			player = new Player(20, 0, this);
 			player.scaleX = .75;
 			player.scaleY = .75;
 			gameObjectList.push(player);
-			addChild(player);
+			entityLayer.addChild(player);
 			/*playerGunTest = new characterStick(stage.stageWidth/2, stage.stageHeight/2, 30.5, 20);
 			gameObjectList.push(playerGunTest);
 			addChild(playerGunTest);*/
 			weapon = new Weapon(player, this);
 			gameObjectList.push(weapon);
-			addChild(weapon);
+			entityLayer.addChild(weapon);
 			
 			
 			//addPlatform(283, 256, 270, 20);
@@ -110,7 +152,26 @@
 			
 			//Enemy Manager
 			enemManager = new EnemyManager(this);
-			addChild(enemManager.enemyList[0]);
+			entityLayer.addChild(enemManager.enemyList[0]);
+			
+			//Parllax Test
+			var cube1:Cube32 = new Cube32(stage.stageWidth/2,16); //Landscape
+			var cube2:Cube32 = new Cube32(stage.stageWidth/2,32); // Background
+			var cube3:Cube32 = new Cube32(stage.stageWidth/2,48); // Midground
+			var cube4:Cube32 = new Cube32(stage.stageWidth/2,64); // Detail
+			var cube5:Cube32 = new Cube32(stage.stageWidth/2,80); // Foreground
+			
+			landscapeLayer.addChild(cube1);
+			backgroundLayer.addChild(cube2);
+			midgroundLayer.addChild(cube3);			
+			detailLayer.addChild(cube4);
+			foregroundLayer.addChild(cube5);
+			
+			landscapeList.push(cube1);
+			backgroundList.push(cube2);
+			midgroundList.push(cube3);			
+			detailList.push(cube4);
+			foregroundList.push(cube5);
 			
 			//Event Listeners
 			stage.addEventListener(Event.ENTER_FRAME, update);
@@ -228,19 +289,6 @@
 			//END Alex Stuff
 		}
 		
-		public function floorFiller() : void
-		{
-			temp = stage.stageWidth / 32;
-			
-			for (var i:Number = 0; i < temp; i++) {
-				tempBlock32 = new Cube32(i*(32), stage.stageHeight-(32/2));
-				gameObjectList.push(tempBlock32);
-				_environmentList.push(tempBlock32);
-				floorLayer.addChild(tempBlock32);
-			}
-			
-		}
-		
 		public function addPlatform(xLoc:Number, yLoc:Number, w:Number, h:Number): void
 		{
 			var plat:Platform = new Platform();
@@ -263,17 +311,54 @@
 		}
 		
 		public function scrollGame(xShift:Number, yShift:Number):void {
+			var i:int = 0;			
 			
-			for(var i:int = 0; i < _environmentList.length; i++) {
+			////for(var i:int = 0; i < _environmentList.length; i++) {
+			//	
+			//		_environmentList[i].x += xShift;
+			//		_environmentList[i].y += yShift;
+			//}
+			
+			for(i = 0; i < landscapeList.length; i++) {
+					
+					landscapeList[i].x += xShift * landscapeShift;
+					landscapeList[i].y += yShift;
 				
-					_environmentList[i].x += xShift;
-					_environmentList[i].y += yShift;
 			}
 			
-			for(var j:int = 0; j < platformList.length; j++) {
+			for(i = 0; i < backgroundList.length; i++) {
 					
-					platformList[j].x += xShift;
-					platformList[j].y += yShift;
+					backgroundList[i].x += xShift * backgroundShift;
+					backgroundList[i].y += yShift;
+				
+			}
+			
+			for(i = 0; i < midgroundList.length; i++) {
+					
+					midgroundList[i].x += xShift * midgroundShift;
+					midgroundList[i].y += yShift;
+				
+			}
+			
+			for(i = 0; i < detailList.length; i++) {
+					
+					detailList[i].x += xShift * detailShift;
+					detailList[i].y += yShift;
+				
+			}
+			
+			for(i = 0; i < platformList.length; i++) {
+					
+					platformList[i].x += xShift * platformShift;
+					platformList[i].y += yShift;
+				
+			}
+			
+			
+			for(i = 0; i < foregroundList.length; i++) {
+					
+					foregroundList[i].x += xShift * foregroundShift;
+					foregroundList[i].y += yShift;
 				
 			}
 			

@@ -57,7 +57,7 @@
 		public function spawnEnemy():void {
 			 _enemy = new Enemy(500,385,this, _document);
 			 _enemyList.push(_enemy);
-			 _document.addChild(_enemy);
+			 _document.entityLayer.addChild(_enemy);
 			
 		}
 		
@@ -85,7 +85,7 @@
 					{
 						trace("OMG BULLET!");
 						_enemyList[i].lowerHealth = _document.weaponList[j].damage;
-						_document.bulletLayer.removeChild(_document.weaponList[j]);
+						_document.entityLayer.removeChild(_document.weaponList[j]);
 						_document.weaponList.splice(j, 1);
 						
 					}
