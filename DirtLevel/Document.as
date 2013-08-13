@@ -14,12 +14,13 @@
 		//Layers
 		public var floorLayer:Sprite;
 		public var bulletLayer:Sprite;
+		public var environmentLayer:Sprite;
 		public var platformLayer:Sprite;
 		
 		//MASTER VARIABLES
 		public var gameObjectList:Array;
-		public var floorList:Array;
-		public var platformList:Array;
+		public var _environmentList:Array; //Holds references to Art Assests and non interacatable objects
+		public var platformList:Array;  //Holds all Platforms and interactable objects
 		public var temp:Number;
 		public var weaponList:Array;
 		
@@ -63,6 +64,7 @@
 			floorLayer = new Sprite();
 			bulletLayer = new Sprite();
 			platformLayer = new Sprite();
+			environmentLayer = new Sprite();
 			
 			//add layers as children
 			addChild(floorLayer);
@@ -72,9 +74,9 @@
 			//game Objects
 			gameObjectList = new Array();
 			weaponList = new Array();
-			floorList = new Array();
+			_environmentList = new Array();
 			platformList = new Array();
-			floorFiller();
+			//floorFiller();
 			//EXAMPLE FORMAT:
 			// X = new X();
 			// push it onto the gameObjectList
@@ -82,7 +84,7 @@
 			testBlock = new GameObject(350, 0);
 			gameObjectList.push(testBlock);
 			addChild(testBlock);
-			player = new Player(200, 0);
+			player = new Player(20, 0, this);
 			player.scaleX = .75;
 			player.scaleY = .75;
 			gameObjectList.push(player);
@@ -128,6 +130,7 @@
 				player.move("RIGHT");
 				trace("right");
 				player.rightSlide = true;
+				
 			}
 			if (event.keyCode == 65 || event.keyCode == 37)
 			{
@@ -232,7 +235,7 @@
 			for (var i:Number = 0; i < temp; i++) {
 				tempBlock32 = new Cube32(i*(32), stage.stageHeight-(32/2));
 				gameObjectList.push(tempBlock32);
-				floorList.push(tempBlock32);
+				_environmentList.push(tempBlock32);
 				floorLayer.addChild(tempBlock32);
 			}
 			
@@ -257,6 +260,25 @@
 				moveTo(startX, startY);
 				lineTo(endX, endY);
 			}
+		}
+		
+		public function scrollGame(xShift:Number, yShift:Number):void {
+			
+			for(var i:int = 0; i < _environmentList.length; i++) {
+				
+					_environmentList[i].x += xShift;
+					_environmentList[i].y += yShift;
+			}
+			
+			for(var j:int = 0; j < platformList.length; j++) {
+					
+					platformList[j].x += xShift;
+					platformList[j].y += yShift;
+				
+			}
+			
+			enemManager.scrollEnemy(xShift, yShift);
+			
 		}
 		
 		/*public function jumpCollisions():void
