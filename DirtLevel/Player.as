@@ -19,8 +19,8 @@
 		private var whatToAnimate:String = "stand";
 		
 		//Michelle Stuff
-		public var xSpeed = 0;
-		public var ySpeed = 0;		
+		public var xSpeed:Number = 0;
+		public var ySpeed:Number = 0;		
 		public var leftSlide:Boolean = false;
 		public var rightSlide:Boolean = false;
 		public var rightDown:Boolean = false;
@@ -34,6 +34,8 @@
 		private var doubleTapLeft:int = 0;
 		private var dashRight:Boolean = false;
 		private var dashLeft:Boolean = false;
+		
+		private var _document:Document; 
 		//End Michelle Stuff
 		
 		//Hard Coded Shit
@@ -44,10 +46,13 @@
 		// -------------Added By ALEX for AI -----------------
 		public var _position:Vector2;
 		
-		public function Player(iXpos, iYpos){
+		public function Player(iXpos, iYpos, aDoc:Document){
+			
+			
 			onGround = false;
 			super(iXpos, iYpos);
 			_position = new Vector2(iXpos, iYpos);
+			_document = aDoc;
 		}
 		
 		public override function update() {
@@ -69,8 +74,9 @@
 			
 			//move player in X direction
 			//trace(xSpeed);
-			x += xSpeed;
-			_position.x = x;
+			//x += xSpeed;
+			//_position.x = ;
+			_document.scrollGame(-xSpeed, 0);
 			doubleTapLeft--;
 			doubleTapRight--;
 			

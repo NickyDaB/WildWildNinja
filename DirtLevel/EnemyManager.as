@@ -42,6 +42,18 @@
 			
 		}
 		
+		public function scrollEnemy(xShift:Number, yShift:Number):void {
+			
+			for( var i:int = 0; i < _enemyList.length; i++) {
+				
+				//Add moving for x and y, and patrol point
+				_enemyList[i].position.x += xShift;
+				_enemyList[i].position.y += yShift;
+				_enemyList[i].patrolPoint += xShift;
+			}
+			
+		}
+		
 		public function spawnEnemy():void {
 			 _enemy = new Enemy(500,385,this, _document);
 			 _enemyList.push(_enemy);

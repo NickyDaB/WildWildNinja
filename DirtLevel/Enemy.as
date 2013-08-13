@@ -34,9 +34,11 @@
 		}
 		
 		public function set behaviorType(action:Number) {_type = action}
+		public function set patrolPoint(moveDistance:Number) {_patrolPoint = moveDistance}
 		
 		public function get health() {return _health;}
 		public function get behaviorType() {return _type;}
+		public function get patrolPoint() {return _patrolPoint;}
 
 
 		public function Enemy(xPlace:int, yPlace:int, enemMan:EnemyManager, aDoc:Document, patrol:Number = 25, beha:Number = 2) {
@@ -207,75 +209,14 @@
 			
 			
 			//draws line to show direction and speed (Based on velocity)
-			_document.drawLine(position.x,position.y, (position.x + velocity.x), (position.y + velocity.y));
+			//_document.drawLine(position.x,position.y, (position.x + velocity.x), (position.y + velocity.y));
 			
 			// ------------------------------------------- NEEDS COLLISION
+			
 			
 			return steeringForce;
 
 		}
-		
-		/*override public function update(dt:Number):void {
-			
-			 switch(_type) {
-				 // 1 - Idle
-				 case 1:
-				 	
-				 	break;
-				 // 2 - Shoot/If See
-				 case 2: 
-				 	
-					if((_document.player.x > x - 150) && (_document.player.x < x + 150)) {
-						if((_document.player.y > y - 20) && (_document.player.y < y + 20)) {
-							//shoot
-						}
-						
-					}
-				 	break;
-					
-				// 3 - Patrol/Smack
-				 case 3:
-				 		//if player is in sight chase
-						if((_document.player.x > x - 150) && (_document.player.x < x + 150)){
-							if((_document.player.y > y - 20) && (_document.player.y < y + 20)) {
-							
-								//move towards player
-							}
-						}
-						//otherwise patrol
-						else {
-							
-							if(x > (_patrolPoint + (_patrolDistance * 5))) {
-								_patrolDistance = _patrolDistance * -1;
-							}
-							else if (x < (_patrolPoint + (_patrolDistance * 5))) {
-								_patrolDistance = _patrolDistance * -1;
-								
-							}
-							
-							x += _patrolDistance;
-							
-						}
-						
-					break;
-				
-				// 4 - Charge
-				 case 4:
-				 
-				 	break;
-	
-				 default:
-				 
-					break;
-					
-				 //Collsion
-				 
-				 
-				 //Gravity if no collision
-				 
-			 }
-			
-		}*/
 		
 		public function patrol():Vector2 {
 			
