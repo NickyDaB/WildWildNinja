@@ -47,6 +47,7 @@
 		public var _environmentList:Array; //Holds references to Art Assests and non interacatable objects
 		public var temp:Number;
 		public var weaponList:Array;
+		public var enemyWeaponList:Array;
 		
 		
 		//Game Objects
@@ -108,6 +109,7 @@
 			//game Objects
 			gameObjectList = new Array();
 			weaponList = new Array();
+			enemyWeaponList = new Array();
 			_environmentList = new Array();
 			
 			landscapeList = new Array();

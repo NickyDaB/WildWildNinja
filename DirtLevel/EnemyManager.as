@@ -32,7 +32,7 @@
 			
 			_enemyList = new Array;
 			//413 = y 33 = x 
-			_enemy = new Enemy(500,385,this, aDoc);
+			_enemy = new BottleThrower(500,385,this, aDoc);
 			_enemyList.push(_enemy);
 			
 			
@@ -93,7 +93,7 @@
 				
 				if(_enemyList[i].health <= 0)
 				{
-					_document.removeChild(_enemyList[i]);
+					_document.entityLayer.removeChild(_enemyList[i]);
 					_enemyList[i].destroy();
 					_enemyList.splice(i,1);
 				}

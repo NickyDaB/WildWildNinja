@@ -103,7 +103,7 @@
 			if(!isJumping){
 				isJumping = true; //up
 				ySpeed = 75;
-				
+				gotoAndPlay("jump_mation");
 			}
 		}
 		
@@ -140,7 +140,7 @@
 				rightDown = true;
 				if (!animating){
 					animating = true;
-					gotoAndPlay("walkRight");
+					gotoAndPlay("run");
 				}
 			}else if (direction == "LEFT") {
 				//x = x - 5;
@@ -168,14 +168,14 @@
 				leftDown = true;
 				if (!animating){
 					animating = true;
-					gotoAndPlay("walkLeft");
+					gotoAndPlay("idle");
 				}
 			}else if (direction == "STAND") {
 				xSpeed = 0;
 				animate = false;
 				animating = false;
 				whatToAnimate = "stand";
-				gotoAndStop("stand");
+				gotoAndStop("idle");
 				dashLeft = false;
 				dashRight = false;
 			}else {
@@ -184,7 +184,7 @@
 				direction = "STAND";
 				animating = false;
 				whatToAnimate = "stand";
-				gotoAndStop("stand");
+				gotoAndStop("idle");
 				
 			}
 		}
