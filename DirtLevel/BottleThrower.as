@@ -24,7 +24,7 @@
 			bottle = new Bottle((this.x + 10),(this.y + 20));
 			
 			_document.enemyWeaponList.push(bottle);
-			_document.foregroundLayer.addChild(bottle);
+			_document.entityLayer.addChild(bottle);
 			
 		}
 		
@@ -40,15 +40,26 @@
 				//Left
 				if(_lookDirection){
 					
+					
 					if(thrown == false) {
 						bottle.x = this.position.x - 12;
 						bottle.y = this.position.y + 18;
 					}					
 						
-					if(((_document.player.x > (x - 250)) && (_document.player.x <= x )) &&
+					if(((_document.player.x > (x - 450)) && (_document.player.x <= x )) &&
 						((_document.player.y >= (y - 20)) && (_document.player.y < (y + 20)))){ // if player is infront of enemy's sight within 150 pixels
 						 // if player is within vertical sightline of enemy
-						trace("Immmmmmaaaa Shooootingggg");
+						
+						//trace("left");
+						//trace("Immmmmmaaaa Shooootingggg");
+						
+						if(thrown == false) {
+							//var dist:Number = Vector2.distance(this.position,_document.player.position);
+							
+							bottle.throwBottle();
+							thrown = true;
+						}
+							
 						_velocity = new Vector2();
 					}
 					else {
@@ -65,10 +76,19 @@
 						bottle.y = this.position.y + 18;
 					}					
 						
-					if(((_document.player.x < (x + 250)) && (_document.player.x >= x)) && 
+					if(((_document.player.x < (x + 450)) && (_document.player.x >= x)) && 
 						((_document.player.y > y - 20) && (_document.player.y < y + 20))){ // if player is infront of enemy's sight within 150 pixels
 						
-							trace("Immmmmmaaaa Shooootingggg");
+							//trace("Immmmmmaaaa Shooootingggg");
+							
+							if(thrown == false) {
+
+								var distanceToPlayer:Number = Vector2.distance(this.position,_document.player.position);
+							
+								bottle.throwBottle();
+								thrown = true;
+							}
+							
 							_velocity = new Vector2();
 							//trace("found");
 					}
@@ -78,6 +98,38 @@
 						return patrol();
 						
 					}
+				}
+				
+				if(bottle.y > stage.stageHeight + bottle.height || bottle.x > stage.stageWidth - bottle.width) {
+					
+					bottle.hit();
+					thrown = false;
+					
+					if(_lookDirection == false) {
+						bottle.x = this.position.x + 32;
+						bottle.y = this.position.y + 18;
+					}
+					else if(_lookDirection) {
+						bottle.x = this.position.x - 12;
+						bottle.y = this.position.y + 18;
+					}
+					
+					
+				}
+				else if (bottle.hitTestObject(_document.player)) {
+					bottle.hit();
+					thrown = false;
+					
+					if(_lookDirection == false) {
+						bottle.x = this.position.x + 32;
+						bottle.y = this.position.y + 18;
+					}
+					else if(_lookDirection) {
+						bottle.x = this.position.x - 12;
+						bottle.y = this.position.y + 18;
+					}
+					
+					
 				}
 				
 				return	steeringForce;			

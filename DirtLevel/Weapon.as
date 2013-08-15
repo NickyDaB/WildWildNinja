@@ -19,7 +19,7 @@
 		public var maxSpareMags:Number;
 		
 		//stupid shit to get it to work
-		public var _holderOfTheWeapon:GameObject;
+		public var _holderOfTheWeapon;
 		public var tempBullet:Bullet;
 		public var doc:Document;
 		public var tempHandX:Number;
@@ -98,7 +98,18 @@
 			}
 		}
 		
-		override public function update()
+		public function enemyShoot(direction:Boolean)
+		{
+			
+			
+			tempBullet = new Bullet(_holderOfTheWeapon.x ,_holderOfTheWeapon.y, damage, 10, direction);
+			doc.gameObjectList.push(tempBullet);
+			doc.enemyWeaponList.push(tempBullet);
+			doc.entityLayer.addChild(tempBullet);
+			
+		}
+		
+		override public function update():void
 		{
 			x = _holderOfTheWeapon.x + _holderOfTheWeapon.width;
 			y = _holderOfTheWeapon.y + _holderOfTheWeapon.height / 2;

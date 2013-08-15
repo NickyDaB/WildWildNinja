@@ -191,20 +191,20 @@
 			if (event.keyCode == 68 || event.keyCode == 39)
 			{
 				player.move("RIGHT");
-				trace("right");
+				//trace("right");
 				player.rightSlide = true;
 				
 			}
 			if (event.keyCode == 65 || event.keyCode == 37)
 			{
 				player.move("LEFT");
-				trace("left");
+				//trace("left");
 				player.leftSlide = true;
 			}
 			if (event.keyCode == 32 || event.keyCode == 87 || event.keyCode == 38)
 			{
 				player.jump();
-				trace("jump");
+				//trace("jump");
 			}
 			if (event.keyCode == 81)
 			{
@@ -362,6 +362,12 @@
 					foregroundList[i].x += xShift * foregroundShift;
 					foregroundList[i].y += yShift;
 				
+			}
+			
+			for(i = 0; i < enemyWeaponList.length; i++)
+			{
+				enemyWeaponList[i].x += xShift;
+				enemyWeaponList[i].y += yShift;
 			}
 			
 			enemManager.scrollEnemy(xShift, yShift);
