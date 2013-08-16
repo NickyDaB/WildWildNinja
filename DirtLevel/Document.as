@@ -11,6 +11,12 @@
 	 */
 	public class Document extends Sprite
 	{
+		//MASTER VARIABLES
+		public var gameObjectList:Array; // List of every game object in the game
+		public var _environmentList:Array; //Holds references to Art Assests and non interacatable objects
+		public var temp:Number;
+		public var weaponList:Array; //temp list for all the bullets in the game
+		
 		//Layers - Handles proper depth of all art on screen
 		public var landscapeLayer:Sprite; //Clouds, Mountains
 		public var backgroundLayer:Sprite; //Open space for other details
@@ -20,34 +26,24 @@
 		public var entityLayer:Sprite; // Player, enemies, bullets
 		public var foregroundLayer:Sprite; // Deatils infront of everything else (Flowers, Dust Clouds)
 		
-		//Lists for Layers - Gives us access to the data to move art on screen
+		//Lists for Layers - A list of every given object on that sprite layer
 		public var landscapeList:Array;
-		public var landscapeShift:Number = .10; 
-		
 		public var backgroundList:Array;
-		public var backgroundShift:Number = .25; 		
-		
 		public var midgroundList:Array;
-		public var midgroundShift:Number = .5;
-		
 		public var detailList:Array;
-		public var detailShift:Number = .75; 		
-		
 		public var platformList:Array; //Holds all Platforms and interactable objects
-		public var platformShift:Number = .75;
-		
-		public var entityList:Array;		
-		
+		public var entityList:Array;	
 		public var foregroundList:Array;
+		
+		
+		//The "xShift" var is the number that we offset that layer's x movement by to give the illusion of depth of field through paralax scrolling. It gets multipled via the xScroll speed during update. 
+		//For example .10 would be move at 10% of xSpeed.
+		public var landscapeShift:Number = .10;
+		public var backgroundShift:Number = .25; 		
+		public var midgroundShift:Number = .5;
+		public var detailShift:Number = .75; 		
+		public var platformShift:Number = .75;
 		public var foregroundShift:Number = 1.25;
-		
-		
-		//MASTER VARIABLES
-		public var gameObjectList:Array;
-		public var _environmentList:Array; //Holds references to Art Assests and non interacatable objects
-		public var temp:Number;
-		public var weaponList:Array;
-		
 		
 		//Game Objects
 		public var testBlock:GameObject;
@@ -58,14 +54,6 @@
 		public var playerGunTest:characterStick;
 		public var weapon:Weapon;
 		//public var plat:Platform;
-		
-		/*
-		//Michelle TEST
-		public var gravity:int = 15;
-		public var friction:int = 10;
-		public var collision:Boolean = false;
-		public var leftSlide:Boolean = false;
-		public var rightSlide:Boolean = false;*/
 		
 		//AI Handler
 		public var enemManager:EnemyManager;
@@ -95,8 +83,6 @@
 			foregroundLayer = new Sprite(); // Deatils infront of everything else (Flowers, Dust Clouds)
 			
 			//add layers as children
-			
-			
 			addChild(landscapeLayer);
 			addChild(backgroundLayer);
 			addChild(midgroundLayer);
@@ -118,70 +104,50 @@
 			entityList = new Array();
 			foregroundList = new Array();
 			
-			//floorFiller();
-			//EXAMPLE FORMAT:
-			// X = new X();
-			// push it onto the gameObjectList
-			// child it to the appropriate layer
-			//testBlock = new GameObject(350, 0);
-			//gameObjectList.push(testBlock);
-			//addChild(testBlock);
 			player = new Player(20, 0, this);
 			player.scaleX = .75;
 			player.scaleY = .75;
 			gameObjectList.push(player);
 			entityLayer.addChild(player);
-			/*playerGunTest = new characterStick(stage.stageWidth/2, stage.stageHeight/2, 30.5, 20);
-			gameObjectList.push(playerGunTest);
-			addChild(playerGunTest);*/
+			
 			weapon = new Weapon(player, this);
 			gameObjectList.push(weapon);
 			entityLayer.addChild(weapon);
 			
-			
-			//addPlatform(283, 256, 270, 20);
 			addPlatform(525, 150, 150, 20);
 			addPlatform(190, 260, 270, 20);
 			addPlatform(0, 455, 720, 25);
-			
-			
-			/*platTestBlock32 = new Cube32(200, 200);
-			gameObjectList.push(platTestBlock32);
-			platformList.push(platTestBlock32);
-			platformLayer.addChild(platTestBlock32);*/
 			
 			//Enemy Manager
 			enemManager = new EnemyManager(this);
 			entityLayer.addChild(enemManager.enemyList[0]);
 			
 			//Parllax Test
-			var cube1:Cube32 = new Cube32(stage.stageWidth/2,16); //Landscape
-			var cube2:Cube32 = new Cube32(stage.stageWidth/2,32); // Background
-			var cube3:Cube32 = new Cube32(stage.stageWidth/2,48); // Midground
-			var cube4:Cube32 = new Cube32(stage.stageWidth/2,64); // Detail
-			var cube5:Cube32 = new Cube32(stage.stageWidth/2,80); // Foreground
-			
-			landscapeLayer.addChild(cube1);
-			backgroundLayer.addChild(cube2);
-			midgroundLayer.addChild(cube3);			
-			detailLayer.addChild(cube4);
-			foregroundLayer.addChild(cube5);
-			
+			var cube1:Cube32 = new Cube32(stage.stageWidth / 2, 16); //Landscape
+			gameObjectList.push(cube1);
 			landscapeList.push(cube1);
+			landscapeLayer.addChild(cube1);
+			var cube2:Cube32 = new Cube32(stage.stageWidth / 2, 32); // Background
+			gameObjectList.push(cube2);
 			backgroundList.push(cube2);
-			midgroundList.push(cube3);			
+			backgroundLayer.addChild(cube2);
+			var cube3:Cube32 = new Cube32(stage.stageWidth / 2, 48); // Midground
+			gameObjectList.push(cube3);
+			midgroundList.push(cube3);	
+			midgroundLayer.addChild(cube3);	
+			var cube4:Cube32 = new Cube32(stage.stageWidth / 2, 64); // Detail
+			gameObjectList.push(cube4);
 			detailList.push(cube4);
+			detailLayer.addChild(cube4);
+			var cube5:Cube32 = new Cube32(stage.stageWidth / 2, 80); // Foreground
+			gameObjectList.push(cube5);
 			foregroundList.push(cube5);
+			foregroundLayer.addChild(cube5);
 			
 			//Event Listeners
 			stage.addEventListener(Event.ENTER_FRAME, update);
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, platformerInputPress);
 			stage.addEventListener(KeyboardEvent.KEY_UP, platformerInputRelease);
-		}
-		
-		private function frameLoop(e: Event ):void
-		{
-			
 		}
 		
 		public function platformerInputPress(event:KeyboardEvent):void {
@@ -204,6 +170,7 @@
 				player.jump();
 				trace("jump");
 			}
+			//q
 			if (event.keyCode == 81)
 			{
 				weapon.changeWeapon();
@@ -258,26 +225,6 @@
 			player.update();
 			//move player in Y direction
 			player.jumpCollisions(platformList);
-			/*
-			//Begin Michelle's Stuff
-			player.x += player.xSpeed;
-			//player.y += player.ySpeed;
-			
-			if(player.x < 0)
-			{
-				player.x = 0;
-				player.xSpeed = 0;
-			}
-			else if(player.x > stage.width - player.width)
-			{
-				player.x = stage.width - player.width;
-				player.xSpeed = 0;
-			}
-			*/
-			//Collision checks with all platforms
-			//jumpCollisions();
-			//END Michelle's Stuff
-			
 			
 			//Begin Alex Stuff
 			_curTime = getTimer( );
@@ -296,8 +243,9 @@
 			plat.y = yLoc;
 			plat.width = w;
 			plat.height = h;
-			platformLayer.addChild(plat)
+			gameObjectList.push(plat);
 			platformList.push(plat);
+			platformLayer.addChild(plat);
 		}
 		
 		public function drawLine (startX:Number, startY:Number, endX:Number, endY:Number):void
@@ -313,48 +261,36 @@
 		public function scrollGame(xShift:Number, yShift:Number):void {
 			var i:int = 0;			
 			
-			////for(var i:int = 0; i < _environmentList.length; i++) {
-			//	
-			//		_environmentList[i].x += xShift;
-			//		_environmentList[i].y += yShift;
-			//}
-			
 			for(i = 0; i < landscapeList.length; i++) {
 					
 					landscapeList[i].x += xShift * landscapeShift;
 					landscapeList[i].y += yShift;
 				
 			}
-			
 			for(i = 0; i < backgroundList.length; i++) {
 					
 					backgroundList[i].x += xShift * backgroundShift;
 					backgroundList[i].y += yShift;
 				
 			}
-			
 			for(i = 0; i < midgroundList.length; i++) {
 					
 					midgroundList[i].x += xShift * midgroundShift;
 					midgroundList[i].y += yShift;
 				
 			}
-			
 			for(i = 0; i < detailList.length; i++) {
 					
 					detailList[i].x += xShift * detailShift;
 					detailList[i].y += yShift;
 				
 			}
-			
 			for(i = 0; i < platformList.length; i++) {
 					
 					platformList[i].x += xShift * platformShift;
 					platformList[i].y += yShift;
 				
 			}
-			
-			
 			for(i = 0; i < foregroundList.length; i++) {
 					
 					foregroundList[i].x += xShift * foregroundShift;
@@ -363,102 +299,6 @@
 			}
 			
 			enemManager.scrollEnemy(xShift, yShift);
-			
 		}
-		
-		/*public function jumpCollisions():void
-		{
-			for (var i:int = 0; i < platformList.length; i++)
-			{
-				if (player.y < stage.stageHeight - plat1.height - player.height && (player.x + player.width < platformList[i].x  || player.x > platformList[i].x + platformList[i].width))
-				{
-					player.isJumping = true;
-				}
-				
-				if(player.isJumping)
-				{
-
-					/*if(player.hitTestObject(plat2))
-					{
-						trace("crash");
-						trace (player.y);
-						trace (player.ySpeed);
-						if(player.y < plat2.y + plat2.height)
-						{
-							trace("below");
-							player.ySpeed = player.y;
-							player.y = plat2.height + plat2.y;
-							
-							//trace(player.y);
-						}
-						else
-						{
-							trace("blah");//player.y = plat2.y + plat2.height/2 + player.height;
-						}
-					}
-					if(player.x + player.width > platformList[i].x  && player.x < platformList[i].x + platformList[i].width && !collision)
-					{
-						if (player.y > platformList[i].y + platformList[i].height)
-						{
-							if((player.y  - player.ySpeed) <= (platformList[i].y + platformList[i].height)) //below
-							{
-							
-								player.y = platformList[i].y + platformList[i].height;
-								player.ySpeed = 0;
-								player._position.y = player.y;
-								trace("below");
-								collision = true;
-							}
-						}
-						if(player.y < platformList[i].y) //above
-						{
-							if ((player.y  - player.ySpeed) > platformList[i].y - player.height)
-							{
-								player.y = platformList[i].y - player.height;
-								player.ySpeed = 0;
-								player._position.y = player.y;
-								player.isJumping = false;
-								collision = false;
-							}
-							//player.ySpeed = 0;
-							trace("above");
-						}
-					}
-					
-					//Wall Sliding
-					if (leftSlide && player.x <= 0 && player.ySpeed <=  0)
-					{
-						player.y -= player.ySpeed;
-						player.ySpeed -= (gravity - friction);
-						player._position.y = player.y;
-						player.isJumping = false;
-						trace("Slide");
-					}
-					else if (rightSlide && player.x + player.width >= stage.stageWidth && player.ySpeed <=  0) 
-					{
-						player.y -= player.ySpeed;
-						player.ySpeed -= (gravity - friction);
-						player._position.y = player.y;
-						player.isJumping = false;
-					}
-					else
-					{
-						player.y -= player.ySpeed;
-						player.ySpeed -= gravity;
-						player._position.y = player.y;
-						
-					}
-					
-					if (player.y >= stage.stageHeight - plat1.height - player.height)
-					{
-						player.isJumping = false;
-						player.y = stage.stageHeight - plat1.height - player.height;
-						player._position.y = player.y;
-						collision = false;
-					}					
-				}		
-			}
-		}*/
 	}
-
 }
