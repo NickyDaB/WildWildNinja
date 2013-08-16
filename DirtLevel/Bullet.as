@@ -1,4 +1,4 @@
-package  
+﻿package  
 {
 	/**
 	 * ...
@@ -9,17 +9,20 @@ package
 		
 		public var damage:Number = 0;
 		public var bulletSpeed:Number = 0;
+		private var directionOfFire:Boolean;
 		
-		public function Bullet(xPos:Number, yPos:Number, iDamage:Number, iBulletSpeed:Number) 
+		public function Bullet(xPos:Number, yPos:Number, iDamage:Number, iBulletSpeed:Number, direct:Boolean = true) 
 		{
 			super(xPos, yPos);
 			damage = iDamage;
 			bulletSpeed = iBulletSpeed;
+			directionOfFire = direct;
 		}
 		
-		override public function update()
+		override public function update():void
 		{
-			x += bulletSpeed;
+			if(directionOfFire) {x += bulletSpeed;}
+			else if (directionOfFire == false) {x -= bulletSpeed;}
 		}
 		
 	}

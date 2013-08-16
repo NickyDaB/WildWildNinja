@@ -4,7 +4,7 @@
 		
 		private var _health:int;
 		private var _healthTotal:int;
-		private var _healthBar:HealthBar;
+		protected var _healthBar:HealthBar;
 		private var _healthBarMaxWidth:Number;
 		
 		private var _enemyManager:EnemyManager;
@@ -18,9 +18,9 @@
 		// 5 - Shoot -- Patrol
 		
 		//Patrolling Variables
-		private var _patrolPoint:Number; // Inital Spawn point to determine area of patrol
-		private var _patrolDistance:Number // Distance the enemy will walk while patrolling
-		private var _lookDirection:Boolean; // True for left, False for Right
+		protected var _patrolPoint:Number; // Inital Spawn point to determine area of patrol
+		protected var _patrolDistance:Number // Distance the enemy will walk while patrolling
+		protected var _lookDirection:Boolean; // True for left, False for Right
 		
 		//ShooterManager Placeholder to allow for bullet attacks
 
@@ -72,15 +72,15 @@
 			// Health Bar
 			_healthBar = new HealthBar(xPlace , yPlace - height + 48, health);
 			_healthBarMaxWidth = _healthBar.Green_bar.width;
-			_document.addChild(_healthBar);
+			_document.entityLayer.addChild(_healthBar);
 			
 		}
 		
 		override protected function calcSteeringForce():Vector2 {
 			var steeringForce:Vector2 = new Vector2();
 			
-			_healthBar.x = this.x;
-			_healthBar.y = this.y - height + 48;
+			_healthBar.x = this.position.x;
+			_healthBar.y = this.position.y - height + 48;
 			
 			//idle
 			if(_type == 1) {
@@ -242,7 +242,7 @@
 
 		public function destroy():void{
 			
-			_document.removeChild(_healthBar);
+			_document.entityLayer.removeChild(_healthBar);
 			
 		}
 

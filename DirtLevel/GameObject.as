@@ -1,4 +1,4 @@
-package 
+﻿package 
 {
 	import flash.display.MovieClip;
 	import flash.ui.Keyboard;
@@ -17,7 +17,7 @@ package
 			y = iYpos;
 		}
 		
-		public function update() {
+		public function update():void {
 			if (obeyGravity == true)
 			{
 				if (y < stage.stageHeight-(this.height/2)-32)

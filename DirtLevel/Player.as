@@ -46,6 +46,8 @@
 		// -------------Added By ALEX for AI -----------------
 		public var _position:Vector2;
 		
+		public function get position() {return _position;}
+		
 		public function Player(iXpos, iYpos, aDoc:Document){
 			
 			
@@ -55,7 +57,7 @@
 			_document = aDoc;
 		}
 		
-		public override function update() {
+		public override function update():void {
 			//Start Nick's Old Code
 			/*if (obeyGravity == true){
 				if (y < stage.stageHeight-(this.height/2)-32){
