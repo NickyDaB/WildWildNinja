@@ -58,26 +58,7 @@
 		}
 		
 		public override function update():void {
-			//Start Nick's Old Code
-			/*if (obeyGravity == true){
-				if (y < stage.stageHeight-(this.height/2)-32){
-					if (y + 8 > stage.stageHeight - (this.height / 2) - 32){
-						y = stage.stageHeight - (this.height / 2) - 32;
-						onGround = true;
-					}else {y = y + 8;}
-				}else {onGround = true;}
-			}
-			x = x + xVelocity;
-			if (xVelocity > 0){
-				if (xVelocity - friction < 0){
-						xVelocity = 0;
-				}else {xVelocity = xVelocity - friction;}
-			}*/ // End Nick's Old Code
 			
-			//move player in X direction
-			//trace(xSpeed);
-			//x += xSpeed;
-			//_position.x = ;
 			_document.scrollGame(-xSpeed, 0);
 			doubleTapLeft--;
 			doubleTapRight--;
@@ -96,11 +77,6 @@
 		}
 		
 		public function jump(){
-			//Start Nick's Old Code
-			/*if (onGround){ 
-				onGround = false;
-				y = y - jumpHeight;
-			}*/ //End Nick's Old Code
 			
 			if(!isJumping){
 				isJumping = true; //up
@@ -204,24 +180,6 @@
 				if(isJumping)
 				{
 
-					/*if(player.hitTestObject(plat2))
-					{
-						trace("crash");
-						trace (player.y);
-						trace (player.ySpeed);
-						if(player.y < plat2.y + plat2.height)
-						{
-							trace("below");
-							player.ySpeed = player.y;
-							player.y = plat2.height + plat2.y;
-							
-							//trace(player.y);
-						}
-						else
-						{
-							trace("blah");//player.y = plat2.y + plat2.height/2 + player.height;
-						}
-					}*/
 					if(x + width > platformList[i].x  && x < platformList[i].x + platformList[i].width && !collision)
 					{
 						if (y > platformList[i].y + platformList[i].height)
