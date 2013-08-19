@@ -32,7 +32,7 @@
 			
 			_enemyList = new Array;
 			//413 = y 33 = x 
-			_enemy = new GunMan(500,385,this, aDoc);
+			_enemy = new BottleThrower(500,385,this, aDoc);
 			_enemyList.push(_enemy);
 			
 			
