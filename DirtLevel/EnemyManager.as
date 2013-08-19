@@ -65,9 +65,9 @@
 			
 			_enemyList[0].behaviorType += 1;
 			
-			if(_enemyList[0].behaviorType == 6)
+			if(_enemyList[0].behaviorType == 4)
 			{
-				_enemyList[0].behaviorType = 1;
+				_enemyList[0].behaviorType = 0;
 			}
 			
 			trace(_enemyList[0].behaviorType);

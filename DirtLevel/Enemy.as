@@ -11,6 +11,7 @@
 		
 		//Behaviors
 		private var _type:Number; 
+		// 0 - Base Behavior
 		// 1 - Idle
 		// 2 - Charge
 		// 3 - Patrol/Charge
@@ -41,7 +42,7 @@
 		public function get patrolPoint() {return _patrolPoint;}
 
 
-		public function Enemy(xPlace:int, yPlace:int, enemMan:EnemyManager, aDoc:Document, patrol:Number = 25, beha:Number = 2) {
+		public function Enemy(xPlace:int, yPlace:int, enemMan:EnemyManager, aDoc:Document, patrol:Number = 25, beha:Number = 0) {
 			
 			super(aDoc,xPlace, yPlace);
 			
@@ -61,7 +62,7 @@
 			
 			// --------------------- Behavoirs ----------------------
 			
-			_type = beha;
+			_type = 0;
 			_patrolPoint = xPlace;
 			_patrolDistance = patrol;
 			_lookDirection = false;
@@ -82,6 +83,14 @@
 			_healthBar.x = this.position.x;
 			_healthBar.y = this.position.y - height + 48;
 			
+			
+			//Base
+			if(_type == 0){
+				_velocity = new Vector2();
+				return steeringForce;
+				
+			}
+			 
 			//idle
 			if(_type == 1) {
 				_velocity = new Vector2();
