@@ -35,7 +35,11 @@
 		private var dashRight:Boolean = false;
 		private var dashLeft:Boolean = false;
 		
-		private var _document:Document; 
+		private var _document:Document;
+		
+		public var _previousY:Number;
+		private var _currentY:Number;
+		private var positionDiff:Number;
 		//End Michelle Stuff
 		
 		//Hard Coded Shit
@@ -55,13 +59,17 @@
 			super(iXpos, iYpos);
 			_position = new Vector2(iXpos, iYpos);
 			_document = aDoc;
+			_previousY = iYpos;
+			_currentY = iYpos;
 		}
 		
 		public override function update():void {
 			
 			_document.scrollGame(-xSpeed, 0);
-			doubleTapLeft--;
-			doubleTapRight--;
+			_document.x -= xSpeed/2;
+			x += xSpeed/2;
+			//doubleTapLeft--;
+			//doubleTapRight--;
 			
 			if(x < 0)
 			{
@@ -81,6 +89,7 @@
 			if(!isJumping){
 				isJumping = true; //up
 				ySpeed = 75;
+				_document.scrollGame(0,ySpeed);
 				gotoAndPlay("jump_mation");
 			}
 		}
@@ -95,19 +104,19 @@
 				if(xVelocity + 2 < 10){
 					xVelocity += 2;
 				}else { xVelocity = 10;}*/
-				
+				 
 				if (rightSlide && _position.x >= stage.stageWidth)
 				{
-					xSpeed = 25;
+					xSpeed = 8;
 				}
 				else if (doubleTapRight > 0 && !rightDown && !isJumping)
 				{
-					xSpeed = 30;
-					dashRight = true;
+					xSpeed = 8;
+					dashRight = false;
 				}
 				else if (dashRight)
 				{
-					xSpeed = 30;
+					xSpeed = 8;
 				}
 				else
 				{
@@ -126,16 +135,16 @@
 				
 				if (leftSlide && x <= 0)
 				{
-					xSpeed = -25;
+					xSpeed = -8;
 				}
 				else if (doubleTapLeft > 0 && !leftDown && !isJumping)
 				{
-					xSpeed = -30;
-					dashLeft = true;
+					xSpeed = -8;
+					dashLeft = false;
 				}
 				else if (dashLeft)
 				{
-					xSpeed = -30;
+					xSpeed = -8;
 				}
 				else
 				{
@@ -194,7 +203,7 @@
 								collision = true;
 							}
 						}
-						if(y < platformList[i].y) //above
+						if(y < platformList[i].y) //platform above
 						{
 							if ((y  - ySpeed) > platformList[i].y - height)
 							{
@@ -209,7 +218,14 @@
 							
 						}
 					}				
-				}		
+				}
+				
+				if(this.y + this.height/2 == platformList[i].y) {
+					if((this.x >= platformList[i].x) && (this.x <= platformList[i].x + platformList[i].width)) {
+						collision = true;
+					}
+				}
+				 
 			}
 			
 			//Wall Sliding
@@ -229,10 +245,11 @@
 				isJumping = false;
 				trace("SlideR");
 			}
-			else
+			else //Gravity actions
 			{
 				y -= ySpeed;
 				ySpeed -= gravity;
+				//if(!collision){_document.y += ySpeed;}
 				_position.y = y;
 				
 			}
@@ -243,7 +260,15 @@
 				y = stage.stageHeight - height;
 				_position.y = y;
 				collision = false;
-			}	
+			}
+			
+			//_currentY = _position.y;
+			//positionDiff = _previousY - _currentY;
+			//if(positionDiff != 0) {
+				//_document.scrollGame(0, positionDiff);
+				//_previousY = _position.y;
+			//}
+			 
 		}
 		
 	}

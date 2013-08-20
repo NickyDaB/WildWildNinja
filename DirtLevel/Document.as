@@ -128,7 +128,7 @@
 			//testBlock = new GameObject(350, 0);
 			//gameObjectList.push(testBlock);
 			//addChild(testBlock);
-			player = new Player(20, 0, this);
+			player = new Player(50, 400, this);
 			player.scaleX = .75;
 			player.scaleY = .75;
 			gameObjectList.push(player);
@@ -142,10 +142,7 @@
 			
 			
 			//addPlatform(283, 256, 270, 20);
-			addPlatform(525, 150, 150, 20);
-			addPlatform(190, 260, 270, 20);
-			addPlatform(0, 455, 720, 25);
-			
+			letsMakeALevel();
 			
 			/*platTestBlock32 = new Cube32(200, 200);
 			gameObjectList.push(platTestBlock32);
@@ -206,6 +203,10 @@
 				player.jump();
 				//trace("jump");
 			}
+			if(event.keyCode == 83) {
+				this.y -= 5;
+				//player._previousY = y;
+			}
 			if (event.keyCode == 81)
 			{
 				weapon.changeWeapon();
@@ -251,6 +252,8 @@
 		
 		public function update(e:Event)
 		{
+			
+			
 			
 			for (var j:int = 0; j < gameObjectList.length; j++)
 			{
@@ -315,6 +318,7 @@
 		public function scrollGame(xShift:Number, yShift:Number):void {
 			var i:int = 0;			
 			
+			
 			////for(var i:int = 0; i < _environmentList.length; i++) {
 			//	
 			//		_environmentList[i].x += xShift;
@@ -352,7 +356,7 @@
 			for(i = 0; i < platformList.length; i++) {
 					
 					platformList[i].x += xShift * platformShift;
-					platformList[i].y += yShift;
+					platformList[i].y = platformList[i].y + yShift;
 				
 			}
 			
@@ -371,6 +375,55 @@
 			}
 			
 			enemManager.scrollEnemy(xShift, yShift);
+			
+		}
+		
+		public function letsMakeALevel():void {
+			
+			// addPlatform(X Location, Y Location, width Height);
+			//addPlatform(525, 150, 150, 20);
+			//addPlatform(190, 260, 270, 20);
+			addPlatform(-6000, 455, 14000, 25);
+			
+			//house
+			addPlatform(240, 199, 480, 16);
+			addPlatform(240, -57, 480, 16);
+			addPlatform(240, -57, 16, 256);
+			addPlatform(240, 199, 16, 128);
+			addPlatform(720, -57, 16, 384);
+			
+			//Wall-Roof/Box
+			addPlatform(1200, -57, 16, 528);
+			addPlatform(944, 199, 256, 256);
+			addPlatform(1200, -57, 528, 16);
+			addPlatform(1728, -57, 16, 528);
+			
+			//Extra
+			//addPlatform(1728, -57, 256, 16);
+			
+			//Roof
+			addPlatform(1984, -57, 16, 528);
+			addPlatform(1984, -57, 528, 16);
+			addPlatform(2512, -57, 16, 528);
+			
+			//Extra
+			//addPlatform(2512, -57, 256, 16);
+			
+			//Roof
+			addPlatform(2768, -57, 16, 528);
+			addPlatform(2768, -57, 320, 16);
+			addPlatform(3216, -57, 64, 16);
+			addPlatform(3280, -57, 16, 528);
+			
+			
+			//Corridor
+			addPlatform(3536, -57, 64, 16);
+			addPlatform(3654, -57, 2240, 16);
+			addPlatform(3536, -57, 16, 256);
+			addPlatform(3536, 199, 2368, 16);
+			
+			
+			
 			
 		}
 		

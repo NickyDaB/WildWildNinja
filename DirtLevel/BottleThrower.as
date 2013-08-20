@@ -38,7 +38,7 @@
 		
 		
 		override protected function calcSteeringForce():Vector2 {
-			trace(_type);
+			//trace(_type);
 				
 			_healthBar.x = this.position.x;
 			_healthBar.y = this.position.y - height + 48;
