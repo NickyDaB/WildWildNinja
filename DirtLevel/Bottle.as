@@ -18,9 +18,9 @@
 			
 			vX = 30;
 			vY = 2;
-			angle = 90;
+			angle = 30;
 			gravity = .5;
-			speed = 20;
+			speed = 25;
 			
 			damage = 15;
 		}

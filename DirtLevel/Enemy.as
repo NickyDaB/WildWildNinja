@@ -73,7 +73,7 @@
 			// Health Bar
 			_healthBar = new HealthBar(xPlace , yPlace - height + 48, health);
 			_healthBarMaxWidth = _healthBar.Green_bar.width;
-			//_document.entityLayer.addChild(_healthBar);
+			_document.entityLayer.addChild(_healthBar);
 			
 		}
 		

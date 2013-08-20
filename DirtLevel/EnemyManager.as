@@ -32,8 +32,8 @@
 			
 			_enemyList = new Array;
 			//413 = y 33 = x 
-			//_enemy = new BottleThrower(500,385,this, aDoc,1);
-			_enemy = new Enemy(500,385,this,aDoc,0);
+			_enemy = new PickAxeMan(500,385,this, aDoc, 25, 1);
+			//_enemy = new Enemy(500,385,this,aDoc,0);
 			_enemyList.push(_enemy);
 			
 			
