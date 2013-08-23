@@ -9,6 +9,8 @@
 		public var handX:Number;
 		public var handY:Number;
 		
+		public var clip:Number;		 
+		
 		private var _type:int;
 		
 		public function GunMan(xPlace:int, yPlace:int, enemMan:EnemyManager, aDoc:Document, patrol:Number = 25, beha:Number = 3) {
