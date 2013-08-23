@@ -32,12 +32,8 @@
 			
 			_enemyList = new Array;
 			//413 = y 33 = x 
-<<<<<<< HEAD
-			_enemy = new GunMan(500,385,this, aDoc);
-=======
 			_enemy = new PickAxeMan(500,385,this, aDoc, 25, 1);
 			//_enemy = new Enemy(500,385,this,aDoc,0);
->>>>>>> origin/Alex
 			_enemyList.push(_enemy);
 			
 			

@@ -16,6 +16,7 @@
 		public var _environmentList:Array; //Holds references to Art Assests and non interacatable objects
 		public var temp:Number;
 		public var weaponList:Array; //temp list for all the bullets in the game
+		public var enemyWeaponList:Array;
 		
 		//Layers - Handles proper depth of all art on screen
 		public var landscapeLayer:Sprite; //Clouds, Mountains
@@ -35,16 +36,6 @@
 		public var entityList:Array;	
 		public var foregroundList:Array;
 		
-		
-<<<<<<< HEAD
-		//MASTER VARIABLES
-		public var gameObjectList:Array;
-		public var _environmentList:Array; //Holds references to Art Assests and non interacatable objects
-		public var temp:Number;
-		public var weaponList:Array;
-		public var enemyWeaponList:Array;
-		
-=======
 		//The "xShift" var is the number that we offset that layer's x movement by to give the illusion of depth of field through paralax scrolling. It gets multipled via the xScroll speed during update. 
 		//For example .10 would be move at 10% of xSpeed.
 		public var landscapeShift:Number = .10;
@@ -53,8 +44,7 @@
 		public var detailShift:Number = .75; 		
 		public var platformShift:Number = .75;
 		public var foregroundShift:Number = 1.25;
->>>>>>> origin/Nick
-		
+
 		//Game Objects
 		public var testBlock:GameObject;
 		public var testBlock32:Cube32;
@@ -115,7 +105,6 @@
 			entityList = new Array();
 			foregroundList = new Array();
 			
-<<<<<<< HEAD
 			//floorFiller();
 			//EXAMPLE FORMAT:
 			// X = new X();
@@ -125,9 +114,6 @@
 			//gameObjectList.push(testBlock);
 			//addChild(testBlock);
 			player = new Player(60, 350, this);
-=======
-			player = new Player(20, 0, this);
->>>>>>> bc7a2e3fbbacf85a36a628d8df4ff83ea14e2e9b
 			player.scaleX = .75;
 			player.scaleY = .75;
 			playerPos = new Vector2(60,375);
@@ -138,8 +124,6 @@
 			gameObjectList.push(weapon);
 			entityLayer.addChild(weapon);
 			
-<<<<<<< HEAD
-			
 			//addPlatform(283, 256, 270, 20);
 			letsMakeALevel();
 			
@@ -147,11 +131,6 @@
 			gameObjectList.push(platTestBlock32);
 			platformList.push(platTestBlock32);
 			platformLayer.addChild(platTestBlock32);*/
-=======
-			addPlatform(525, 150, 150, 20);
-			addPlatform(190, 260, 270, 20);
-			addPlatform(0, 455, 720, 25);
->>>>>>> bc7a2e3fbbacf85a36a628d8df4ff83ea14e2e9b
 			
 			//Enemy Manager
 			enemManager = new EnemyManager(this);
@@ -189,25 +168,8 @@
 			//trace("you pressed key: " + event.keyCode);
 			if (event.keyCode == 68 || event.keyCode == 39)
 			{
-<<<<<<< HEAD
-				player.move("RIGHT");
-				//trace("right");
-				player.rightSlide = true;
-				
-			}
-			if (event.keyCode == 65 || event.keyCode == 37)
-			{
-				player.move("LEFT");
-				//trace("left");
-				player.leftSlide = true;
-			}
-			if (event.keyCode == 32 || event.keyCode == 87 || event.keyCode == 38)
-			{
-				player.jump();
-				//trace("jump");
-=======
 				player.setXSpeed("RIGHT");
-
+				
 			}
 			if (event.keyCode == 65 || event.keyCode == 37)
 			{
@@ -222,7 +184,6 @@
 			if(event.keyCode == 83) {
 				//this.y -= 5;
 				
->>>>>>> origin/Alex
 			}
 			//q
 			if (event.keyCode == 81)
@@ -276,10 +237,6 @@
 			
 			player.update();
 			//move player in Y direction
-<<<<<<< HEAD
-=======
-			player.jumpCollisions(platformList);
->>>>>>> bc7a2e3fbbacf85a36a628d8df4ff83ea14e2e9b
 			
 			//AI Timing for Movement
 			_curTime = getTimer( );
@@ -300,7 +257,6 @@
 			plat.y = yLoc;
 			plat.width = w;
 			plat.height = h;
-			gameObjectList.push(plat);
 			platformList.push(plat);
 			platformLayer.addChild(plat);
 		}
@@ -308,16 +264,6 @@
 		public function scrollGame(xShift:Number, yShift:Number):void {
 			var i:int = 0;			
 			
-<<<<<<< HEAD
-			
-			////for(var i:int = 0; i < _environmentList.length; i++) {
-			//	
-			//		_environmentList[i].x += xShift;
-			//		_environmentList[i].y += yShift;
-			//}
-			
-=======
->>>>>>> bc7a2e3fbbacf85a36a628d8df4ff83ea14e2e9b
 			for(i = 0; i < landscapeList.length; i++) {
 					
 					landscapeList[i].x += xShift * landscapeShift;
@@ -363,7 +309,6 @@
 			
 			enemManager.scrollEnemy(xShift, yShift);
 		}
-<<<<<<< HEAD
 		
 		public function letsMakeALevel():void {
 			
@@ -414,7 +359,5 @@
 			
 		}
 		
-=======
->>>>>>> bc7a2e3fbbacf85a36a628d8df4ff83ea14e2e9b
 	}
 }

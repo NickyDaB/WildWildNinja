@@ -52,8 +52,6 @@
 		public function set sprint(run:Boolean) {_sprint = run;}
 		public function set position(pos:Vector2) {_position = pos;}
 		
-		public function get position() {return _position;}
-		
 		public function Player(iXpos, iYpos, aDoc:Document){
 			
 			
@@ -84,17 +82,6 @@
 			
 		}
 		
-<<<<<<< HEAD
-		public override function update():void {
-			//Start Nick's Old Code
-			/*if (obeyGravity == true){
-				if (y < stage.stageHeight-(this.height/2)-32){
-					if (y + 8 > stage.stageHeight - (this.height / 2) - 32){
-						y = stage.stageHeight - (this.height / 2) - 32;
-						onGround = true;
-					}else {y = y + 8;}
-				}else {onGround = true;}
-=======
 		override public function update():void {
 			
 			//graphics.clear();
@@ -110,7 +97,6 @@
 			}
 			else {
 				x += xSpeed;
->>>>>>> origin/Alex
 			}
 			
 			if(jumping) {
@@ -141,17 +127,11 @@
 		
 		public function setYSpeed(){
 			
-<<<<<<< HEAD
-			if(!isJumping){
-				isJumping = true; //up
-				ySpeed = 75;
-=======
 			if(onPlatform){
 				jumping = true; //up
 				onPlatform = false;
 				ySpeed = 40;
 				//_document.scrollGame(0,ySpeed);
->>>>>>> origin/Alex
 				gotoAndPlay("jump_mation");
 			}
 		}
@@ -185,11 +165,8 @@
 				
 				if (!animating){
 					animating = true;
-<<<<<<< HEAD
 					gotoAndPlay("idle");
-=======
 					gotoAndPlay("run");
->>>>>>> origin/Alex
 				}
 			}else if (direction == "STAND") {
 				xSpeed = 0;
@@ -197,11 +174,6 @@
 				animating = false;
 				whatToAnimate = "stand";
 				gotoAndStop("idle");
-<<<<<<< HEAD
-				dashLeft = false;
-				dashRight = false;
-=======
->>>>>>> origin/Alex
 			}else {
 				trace("ELSE! - Possible Key Release");
 				//xSpeed = 0;
@@ -212,7 +184,7 @@
 				
 			}
 			
-			collisions(_document.platformList);
+			//collisions(_document.platformList);
 			
 		}
 		

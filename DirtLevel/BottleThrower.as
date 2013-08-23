@@ -1,38 +1,19 @@
 ﻿package  {
 	
 	public class BottleThrower extends Enemy{
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-		public function BottleThrower() {
-			// constructor code
-		}
-		
-		override protected function calcSteeringForce() {
-			
-		}
-=======
-=======
->>>>>>> origin/Alex
-		
 		
 		//Variables
 		private var lookDirection:Boolean;
 		
-<<<<<<< HEAD
-=======
 		private var _type:Number;
 		
->>>>>>> origin/Alex
+
 		private var bottle:Bottle;
 		
 		private var thrown:Boolean;
-		
-<<<<<<< HEAD
-		public function BottleThrower(xPlace:int, yPlace:int, enemMan:EnemyManager, aDoc:Document, patrol:Number = 25, beha:Number = 3) {
-=======
+
 		public function BottleThrower(xPlace:int, yPlace:int, enemMan:EnemyManager, aDoc:Document, patrol:Number = 25, beha:Number = 0) {
->>>>>>> origin/Alex
+
 			super(xPlace, yPlace, enemMan, aDoc, patrol, beha);
 			
 			this.position.x = xPlace;
@@ -40,11 +21,8 @@
 			
 			lookDirection = false;
 			
-<<<<<<< HEAD
-=======
 			_type = beha;
 			
->>>>>>> origin/Alex
 			thrown = false;
 			
 			//Add Bottle 
@@ -55,10 +33,6 @@
 			
 		}
 		
-<<<<<<< HEAD
-		override protected function calcSteeringForce():Vector2 {
-			//trace(_lookDirection);
-=======
 		override public function set behaviorType(action:Number) {_type = action}
 		
 		override public function get behaviorType() {return _type;}
@@ -66,20 +40,15 @@
 		
 		override protected function calcSteeringForce():Vector2 {
 			//trace(_type);
->>>>>>> origin/Alex
 				
 			_healthBar.x = this.position.x;
 			_healthBar.y = this.position.y - height + 48;
 			
 			
 			var steeringForce:Vector2 = new Vector2();
-<<<<<<< HEAD
-				
-=======
-			
+	
 			// Patrol / Throw Bottle 
 			if(_type == 0) {
->>>>>>> origin/Alex
 				//Left
 				if(_lookDirection){
 					
@@ -142,9 +111,6 @@
 						
 					}
 				}
-<<<<<<< HEAD
-				
-=======
 			}
 			
 			// Idle
@@ -230,9 +196,7 @@
 				}
 			}
 			
-
->>>>>>> origin/Alex
-				if(bottle.y > stage.stageHeight + bottle.height || bottle.x > stage.stageWidth - bottle.width) {
+			if(bottle.y > stage.stageHeight + bottle.height || bottle.x > stage.stageWidth - bottle.width) {
 					
 					bottle.hit();
 					thrown = false;
@@ -267,11 +231,6 @@
 				return	steeringForce;			
 				
 			}
-		
-<<<<<<< HEAD
->>>>>>> origin/Alex
-=======
->>>>>>> origin/Alex
 
 	}
 	

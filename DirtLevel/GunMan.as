@@ -9,13 +9,10 @@
 		public var handX:Number;
 		public var handY:Number;
 		
-<<<<<<< HEAD
-=======
 		public var clip:Number;		 
 		
 		private var _type:int;
 		
->>>>>>> origin/Alex
 		public function GunMan(xPlace:int, yPlace:int, enemMan:EnemyManager, aDoc:Document, patrol:Number = 25, beha:Number = 3) {
 			// constructor code
 			super(xPlace, yPlace, enemMan, aDoc, patrol, beha);
@@ -35,11 +32,7 @@
 			
 			handX = this.position.x - 12;
 			handY = this.position.y + 18;
-			
-<<<<<<< HEAD
-		}
-		
-=======
+
 			_type = beha;
 			
 		}
@@ -48,7 +41,6 @@
 		
 		override public function get behaviorType() {return _type;}
 		
->>>>>>> origin/Alex
 		override protected function calcSteeringForce():Vector2 {
 			//Shoot - Patrol
 			
@@ -56,13 +48,9 @@
 			_healthBar.y = this.position.y - height + 48;
 			
 			var steeringForce:Vector2 = new Vector2();
-<<<<<<< HEAD
-			
-=======
 	
 			if(_type == 0){
 				
->>>>>>> origin/Alex
 				//trace(_lookDirection);
 				//Left
 				if(_lookDirection){
@@ -86,9 +74,7 @@
 				}
 				//right
 				else {
-					
-					
-					 
+
 					gunWeapon.x = this.position.x + 32;
 					gunWeapon.y = this.position.y + 18;
 					 
@@ -107,9 +93,7 @@
 						
 					}
 				}
-<<<<<<< HEAD
-				
-=======
+
 			}
 			
 			//idle
@@ -174,8 +158,7 @@
 				}
 				
 			}
-			
->>>>>>> origin/Alex
+
 				return steeringForce;
 				
 			}			

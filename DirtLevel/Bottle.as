@@ -18,15 +18,10 @@
 			
 			vX = 30;
 			vY = 2;
-<<<<<<< HEAD
-			angle = 90;
-			gravity = .5;
-			speed = 20;
-=======
+
 			angle = 30;
 			gravity = .5;
 			speed = 25;
->>>>>>> origin/Alex
 			
 			damage = 15;
 		}
