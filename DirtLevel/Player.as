@@ -1,161 +1,171 @@
 ﻿package  
 {
-	/**
-	 * ...
-	 * @author Michelle L.
-	 */
-	public class Player extends PlatformerSkeleton 
+	 
+	//Author: Alex Williams
+	
+	import flash.display.Sprite;	
+	import flash.geom.Point;
+	
+	public class Player extends GameObject
 	{
 		
 		//attributes
-		private var onGround:Boolean;
+		private var onPlatform:Boolean;
 		private var animate:Boolean = false;
 		private var animating:Boolean = false;
-		
-		private var jumpHeight:Number = 32;
-		private var xVelocity:Number = 0;
 		
 		private var direction:String = "stand";
 		private var whatToAnimate:String = "stand";
 		
-		//Michelle Stuff
-		public var xSpeed:Number = 0;
-		public var ySpeed:Number = 0;		
-		public var leftSlide:Boolean = false;
-		public var rightSlide:Boolean = false;
-		public var rightDown:Boolean = false;
-		public var leftDown:Boolean = false;
+		//Movement Variables
+		public var xSpeed:Number;
+		public var ySpeed:Number;
+		private var gravity:Number;
 		
-		private var gravity:int = 15;
-		private var fric:int = 10;
-		private var isJumping = false;
-		private var collision:Boolean = false;
-		private var doubleTapRight:int = 0;
-		private var doubleTapLeft:int = 0;
-		private var dashRight:Boolean = false;
-		private var dashLeft:Boolean = false;
+		private var jumping:Boolean;;
+		private var falling:Boolean;
+		private var collision:Boolean;
+		private var _wallSlide:Boolean;
+		private var _sprint:Boolean;
 		
+		private var refPoint:Point;
+		private var convertedRefPoint:Point;
+		private var compareX:Number;
+		private var compareY:Number;
+		
+		//Base Variables for Game
 		private var _document:Document;
 		
-		public var _previousY:Number;
-		private var _currentY:Number;
-		private var positionDiff:Number;
-		//End Michelle Stuff
-		
-		//Hard Coded Shit
+		//Hard Coded Locations for Hands
 		public var handX = x+width;
 		public var handY = y+height/2;
-		//
-		
-		// -------------Added By ALEX for AI -----------------
+	
 		public var _position:Vector2;
+		private var idleHeight:Number;
+		private var idleWidth:Number;
 		
 		public function get position() {return _position;}
+		public function get wallSlide() {return _wallSlide;}
+		public function get sprint() {return _sprint;}
+		
+		public function set wallSlide(slide:Boolean) {_wallSlide = slide;}
+		public function set sprint(run:Boolean) {_sprint = run;}
+		public function set position(pos:Vector2) {_position = pos;}
 		
 		public function Player(iXpos, iYpos, aDoc:Document){
 			
 			
-			onGround = false;
+			onPlatform = false;
+			jumping = true;
 			super(iXpos, iYpos);
-			_position = new Vector2(iXpos, iYpos);
+			_position = new Vector2(0, 0);
 			_document = aDoc;
-			_previousY = iYpos;
-			_currentY = iYpos;
-		}
-		
-		public override function update():void {
 			
-			_document.scrollGame(-xSpeed, 0);
-			_document.x -= xSpeed/2;
-			x += xSpeed/2;
-			//doubleTapLeft--;
-			//doubleTapRight--;
+			_wallSlide = false;
+			_sprint = false;
 			
-			if(x < 0)
-			{
-				x = 0;
-				//xSpeed = 0;
-			}
-			else if(x > stage.width - width)
-			{
-				x = stage.width - width;
-				//xSpeed = 0;
-			}
+			//_center = new Vector2((iXpos),(iYpos));
+			//trace(width);
+			//trace(height);
+			
+			xSpeed = 0;
+			ySpeed = 0;
+			
+			gravity = 2;
+			idleHeight = height;
+			idleWidth = width;
+			
+			//graphics.clear();
+			//graphics.lineStyle(2,0x000000);
+			//graphics.drawCircle(width/2,_position.y + height,10);
+			//graphics.drawCircle(width/2,_position.y,10);
 			
 		}
 		
-		public function jump(){
+		override public function update():void {
 			
-			if(!isJumping){
-				isJumping = true; //up
-				ySpeed = 75;
-				_document.scrollGame(0,ySpeed);
+			//graphics.clear();
+			//graphics.lineStyle(2,0x000000);
+			//graphics.drawCircle(width/2,y + height * 2,10);
+			//graphics.drawCircle(width/2,y,10);
+			
+			collisions(_document.platformList);
+			 
+			if(x >= stage.stageWidth/4) {
+				//_document.x -= xSpeed; //Breaks the parallax
+				_document.scrollGame(-xSpeed * 2,0);
+			}
+			else {
+				x += xSpeed;
+			}
+			
+			if(jumping) {
+				ySpeed -= gravity;
+				if(ySpeed <= 0) {falling = true; jumping = false;}
+				if(y <= (stage.stageHeight * .40)) {
+					_document.scrollGame(0,ySpeed);
+				}
+			}
+			
+			if(falling) {
+				ySpeed -= gravity;
+			}
+			
+			
+			if(y <= (stage.stageHeight * .40)) {
+				//_document.y += ySpeed;
+				_document.scrollGame(0, -ySpeed);
+			}else if (jumping || falling) {
+				//_document.y += ySpeed * 1.3;
+				_document.scrollGame(0, ySpeed);
+			}
+			else {
+				y -= ySpeed;
+			}
+			
+		}
+		
+		public function setYSpeed(){
+			
+			if(onPlatform){
+				jumping = true; //up
+				onPlatform = false;
+				ySpeed = 40;
+				//_document.scrollGame(0,ySpeed);
 				gotoAndPlay("jump_mation");
 			}
 		}
 		
-		public function move(iDirection)
-		{
+		public function setXSpeed(iDirection) {
 			//trace("iDirect: " + iDirection);
 			direction = iDirection.toUpperCase(); 
 			if (direction == "RIGHT") {
-				/*xVelocity = 6;
-				
-				if(xVelocity + 2 < 10){
-					xVelocity += 2;
-				}else { xVelocity = 10;}*/
 				 
-				if (rightSlide && _position.x >= stage.stageWidth)
-				{
-					xSpeed = 8;
+				if (_sprint && onPlatform) {
+					xSpeed = 20;
 				}
-				else if (doubleTapRight > 0 && !rightDown && !isJumping)
-				{
-					xSpeed = 8;
-					dashRight = false;
-				}
-				else if (dashRight)
-				{
-					xSpeed = 8;
-				}
-				else
-				{
+				else {
 					xSpeed = 8;
 				}
 				
-				doubleTapRight = 20;
-				rightDown = true;
 				if (!animating){
 					animating = true;
 					gotoAndPlay("run");
 				}
+				
 			}else if (direction == "LEFT") {
-				//x = x - 5;
-				
-				
-				if (leftSlide && x <= 0)
-				{
+
+			
+				if (_sprint && onPlatform) {
 					xSpeed = -8;
 				}
-				else if (doubleTapLeft > 0 && !leftDown && !isJumping)
-				{
-					xSpeed = -8;
-					dashLeft = false;
-				}
-				else if (dashLeft)
-				{
-					xSpeed = -8;
-				}
-				else
-				{
+				else {
 					xSpeed = -8;
 				}
 				
-				doubleTapLeft = 20;
-				leftDown = true;
 				if (!animating){
 					animating = true;
-					gotoAndPlay("idle");
+					gotoAndPlay("run");
 				}
 			}else if (direction == "STAND") {
 				xSpeed = 0;
@@ -163,8 +173,6 @@
 				animating = false;
 				whatToAnimate = "stand";
 				gotoAndStop("idle");
-				dashLeft = false;
-				dashRight = false;
 			}else {
 				trace("ELSE! - Possible Key Release");
 				//xSpeed = 0;
@@ -174,101 +182,89 @@
 				gotoAndStop("idle");
 				
 			}
+			
+			collisions(_document.platformList);
+			
 		}
 		
-		public function jumpCollisions(platformList:Array):void
-		{
-			if (y < stage.stageHeight )//&& (x + width < platformList[i].x  || x > platformList[i].x + platformList[i].width))
-			{
-				isJumping = true;
-			}
+		public function collisions(platformList:Array):void {
+			
+			graphics.clear();
+			graphics.lineStyle(2,0x000000);
+			graphics.drawCircle(_position.x,0,10);
+			graphics.drawCircle(_position.x + width,0,10);
+			graphics.drawCircle(0,_position.y,10);
+			graphics.drawCircle(0,_position.y + height,10);
+			
+			refPoint = new Point(_position.x, _position.y);
+			convertedRefPoint = this.localToGlobal(refPoint);
+			
+			//trace(convertedRefPoint.x);
+			//trace(convertedRefPoint.y);
+			
+			direction.toUpperCase();
+			
 			for (var i:int = 0; i < platformList.length; i++)
 			{
+				compareX = Math.abs((convertedRefPoint.x - platformList[i].x));
+				compareY = Math.abs((convertedRefPoint.y - platformList[i].y));
 				
+				if((compareX <= 170) || (compareY <= 170)) {
 				
-				if(isJumping)
-				{
+					if(onPlatform) {
+						//trace("plat");
+						if(direction == "RIGHT") {
+							if(((convertedRefPoint.x + width) >= platformList[i].x) && ((convertedRefPoint.x + width) 
+									<= platformList[i].x + platformList[i].width)) {
+								if((convertedRefPoint.y <= (platformList[i].y + platformList[i].height)) && 
+									((convertedRefPoint.y >= platformList[i].y))) {
+									xSpeed = 0;
+									x = platformList[i].x - width;
+								}
+								
+							}
+						}else if (direction == "LEFT") {
+						
+							if(((convertedRefPoint.x) <= platformList[i].x + platformList[i].width) && 
+									((convertedRefPoint.x) >= platformList[i].x)) {
+								if((convertedRefPoint.y <= (platformList[i].y + platformList[i].height)) && 
+									((convertedRefPoint.y >= platformList[i].y))) {
+									xSpeed = 0;
+									x = platformList[i].x + platformList[i].width;
+								}
+							}
+						}
+						
+					}else if(jumping) {
+						
+					}else if(falling) {
+						//trace("jumping");
+						//against
 
-					if(x + width > platformList[i].x  && x < platformList[i].x + platformList[i].width && !collision)
-					{
-						if (y > platformList[i].y + platformList[i].height)
-						{
-							if((y  - ySpeed) <= (platformList[i].y + platformList[i].height)) //below
-							{
-							
-								y = platformList[i].y + platformList[i].height;
-								ySpeed = 0;
-								_position.y = y;
-								//trace("below");
-								collision = true;
+						//landing on platform
+						if((convertedRefPoint.y + height >= platformList[i].y) && 
+								(convertedRefPoint.y + height <= platformList[i].y + platformList[i].height)) {
+									//trace("test");
+							if(((convertedRefPoint.x + width) >= platformList[i].x) && ((convertedRefPoint.x + width) 
+									<= platformList[i].x + platformList[i].width)) {
+										onPlatform = true;
+										falling = false;
+										ySpeed = 0;
+										y = platformList[i].y - height;
+										
+							}else  if (((convertedRefPoint.x) <= platformList[i].x + platformList[i].width) && 
+										((convertedRefPoint.x) >= platformList[i].x)) {
+										onPlatform = true;
+										falling = false;
+										ySpeed = 0;
+										y = platformList[i].y - height;
+										
 							}
 						}
-						if(y < platformList[i].y) //platform above
-						{
-							if ((y  - ySpeed) > platformList[i].y - height)
-							{
-								y = platformList[i].y - height;
-								ySpeed = 0;
-								_position.y = y;
-								isJumping = false;
-								collision = false;
-								//trace("above");
-							}
-							//player.ySpeed = 0;
-							
-						}
-					}				
-				}
-				
-				if(this.y + this.height/2 == platformList[i].y) {
-					if((this.x >= platformList[i].x) && (this.x <= platformList[i].x + platformList[i].width)) {
-						collision = true;
 					}
-				}
-				 
+				} 
 			}
 			
-			//Wall Sliding
-			if (leftSlide && x <= 0 && ySpeed <=  0)
-			{
-				y -= ySpeed;
-				ySpeed -= (gravity - fric);
-				_position.y = y;
-				isJumping = false;
-				trace("SlideL");
-			}
-			else if (rightSlide && x + width >= stage.stageWidth && ySpeed <=  0) 
-			{
-				y -= ySpeed;
-				ySpeed -= (gravity - fric);
-				_position.y = y;
-				isJumping = false;
-				trace("SlideR");
-			}
-			else //Gravity actions
-			{
-				y -= ySpeed;
-				ySpeed -= gravity;
-				//if(!collision){_document.y += ySpeed;}
-				_position.y = y;
-				
-			}
-			
-			if (y >= stage.stageHeight - height)
-			{
-				isJumping = false;
-				y = stage.stageHeight - height;
-				_position.y = y;
-				collision = false;
-			}
-			
-			//_currentY = _position.y;
-			//positionDiff = _previousY - _currentY;
-			//if(positionDiff != 0) {
-				//_document.scrollGame(0, positionDiff);
-				//_previousY = _position.y;
-			//}
-			 
 		}
 		
 	}

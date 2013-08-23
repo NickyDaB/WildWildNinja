@@ -18,13 +18,13 @@
 		}
 		
 		public function update():void {
-			if (obeyGravity == true)
+		/*	if (obeyGravity == true)
 			{
 				if (y < stage.stageHeight-(this.height/2)-32)
 				{
 					y = y + 8;
 				}
-			}
+			}*/
 		}
 		
 		

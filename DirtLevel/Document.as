@@ -56,6 +56,7 @@
 		public var tempBlock32:Cube32;
 		public var platTestBlock32:Cube32;
 		public var player:Player;
+		public var playerPos:Vector2;
 		public var playerGunTest:characterStick;
 		public var weapon:Weapon;
 		//public var plat:Platform;
@@ -78,7 +79,6 @@
 		
 		public function Document() 
 		{
-			addEventListener(Event.ENTER_FRAME, frameLoop);
 			begin();
 		}
 		
@@ -128,10 +128,11 @@
 			//testBlock = new GameObject(350, 0);
 			//gameObjectList.push(testBlock);
 			//addChild(testBlock);
-			player = new Player(50, 400, this);
+			player = new Player(60, 350, this);
 			player.scaleX = .75;
 			player.scaleY = .75;
-			gameObjectList.push(player);
+			playerPos = new Vector2(60,375);
+			//gameObjectList.push(player);
 			entityLayer.addChild(player);
 			/*playerGunTest = new characterStick(stage.stageWidth/2, stage.stageHeight/2, 30.5, 20);
 			gameObjectList.push(playerGunTest);
@@ -178,34 +179,26 @@
 			stage.addEventListener(KeyboardEvent.KEY_UP, platformerInputRelease);
 		}
 		
-		private function frameLoop(e: Event ):void
-		{
-			
-		}
-		
 		public function platformerInputPress(event:KeyboardEvent):void {
 			//trace("you pressed key: " + event.keyCode);
 			if (event.keyCode == 68 || event.keyCode == 39)
 			{
-				player.move("RIGHT");
-				//trace("right");
-				player.rightSlide = true;
-				
+				player.setXSpeed("RIGHT");
+
 			}
 			if (event.keyCode == 65 || event.keyCode == 37)
 			{
-				player.move("LEFT");
-				//trace("left");
-				player.leftSlide = true;
+				player.setXSpeed("LEFT");
+			
 			}
 			if (event.keyCode == 32 || event.keyCode == 87 || event.keyCode == 38)
 			{
-				player.jump();
+				player.setYSpeed();
 				//trace("jump");
 			}
 			if(event.keyCode == 83) {
-				this.y -= 5;
-				//player._previousY = y;
+				//this.y -= 5;
+				
 			}
 			if (event.keyCode == 81)
 			{
@@ -232,28 +225,24 @@
 			//trace("you released key: " + event.keyCode);
 			if (event.keyCode == 68 || event.keyCode == 39)
 			{
-				player.move("STAND");
-				player.rightSlide = false;
-				player.rightDown = false;
+				player.setXSpeed("STAND");
+				
 			}
 			if (event.keyCode == 65 || event.keyCode == 37)
 			{
-				player.move("STAND");
-				player.leftSlide = false;
-				player.leftDown = false;
+				player.setXSpeed("STAND");
+				
 			}
 			if (event.keyCode == 32 || event.keyCode == 87 || event.keyCode == 38)
 			{
-				player.jump();
+				player.setYSpeed();
 			}else {
-				player.move("STAND");
+				player.setXSpeed("STAND");
 			}
 		}
 		
 		public function update(e:Event)
 		{
-			
-			
 			
 			for (var j:int = 0; j < gameObjectList.length; j++)
 			{
@@ -262,29 +251,8 @@
 			
 			player.update();
 			//move player in Y direction
-			player.jumpCollisions(platformList);
-			/*
-			//Begin Michelle's Stuff
-			player.x += player.xSpeed;
-			//player.y += player.ySpeed;
 			
-			if(player.x < 0)
-			{
-				player.x = 0;
-				player.xSpeed = 0;
-			}
-			else if(player.x > stage.width - player.width)
-			{
-				player.x = stage.width - player.width;
-				player.xSpeed = 0;
-			}
-			*/
-			//Collision checks with all platforms
-			//jumpCollisions();
-			//END Michelle's Stuff
-			
-			
-			//Begin Alex Stuff
+			//AI Timing for Movement
 			_curTime = getTimer( );
 			_dt = (_curTime - _lastTime)/1000;
 			_lastTime = _curTime;
@@ -292,6 +260,8 @@
 			
 			enemManager.update(player.x,player.y, _dt);
 			//END Alex Stuff
+			
+			
 		}
 		
 		public function addPlatform(xLoc:Number, yLoc:Number, w:Number, h:Number): void
@@ -303,16 +273,6 @@
 			plat.height = h;
 			platformLayer.addChild(plat)
 			platformList.push(plat);
-		}
-		
-		public function drawLine (startX:Number, startY:Number, endX:Number, endY:Number):void
-		{
-			with (graphics)
-			{
-				lineStyle(1);
-				moveTo(startX, startY);
-				lineTo(endX, endY);
-			}
 		}
 		
 		public function scrollGame(xShift:Number, yShift:Number):void {
@@ -383,143 +343,50 @@
 			// addPlatform(X Location, Y Location, width Height);
 			//addPlatform(525, 150, 150, 20);
 			//addPlatform(190, 260, 270, 20);
-			addPlatform(-6000, 455, 14000, 25);
+			addPlatform(-6000, 455, 14000, 70);
 			
 			//house
-			addPlatform(240, 199, 480, 16);
-			addPlatform(240, -57, 480, 16);
-			addPlatform(240, -57, 16, 256);
-			addPlatform(240, 199, 16, 128);
-			addPlatform(720, -57, 16, 384);
+			addPlatform(240, 199, 480, 25);
+			addPlatform(240, -57, 480, 25);
+			addPlatform(240, -57, 25, 256);
+			addPlatform(240, 199, 25, 128);
+			addPlatform(720, -57, 25, 384);
 			
 			//Wall-Roof/Box
-			addPlatform(1200, -57, 16, 528);
+			addPlatform(1200, -57, 25, 528);
 			addPlatform(944, 199, 256, 256);
-			addPlatform(1200, -57, 528, 16);
-			addPlatform(1728, -57, 16, 528);
+			addPlatform(1200, -57, 528, 25);
+			addPlatform(1728, -57, 25, 528);
 			
 			//Extra
 			//addPlatform(1728, -57, 256, 16);
 			
 			//Roof
-			addPlatform(1984, -57, 16, 528);
-			addPlatform(1984, -57, 528, 16);
-			addPlatform(2512, -57, 16, 528);
+			addPlatform(1984, -57, 25, 528);
+			addPlatform(1984, -57, 528, 25);
+			addPlatform(2512, -57, 25, 528);
 			
 			//Extra
 			//addPlatform(2512, -57, 256, 16);
 			
 			//Roof
-			addPlatform(2768, -57, 16, 528);
-			addPlatform(2768, -57, 320, 16);
-			addPlatform(3216, -57, 64, 16);
-			addPlatform(3280, -57, 16, 528);
+			addPlatform(2768, -57, 25, 528);
+			addPlatform(2768, -57, 320, 25);
+			addPlatform(3216, -57, 64, 25);
+			addPlatform(3280, -57, 25, 528);
 			
 			
 			//Corridor
-			addPlatform(3536, -57, 64, 16);
-			addPlatform(3654, -57, 2240, 16);
-			addPlatform(3536, -57, 16, 256);
-			addPlatform(3536, 199, 2368, 16);
+			addPlatform(3536, -57, 64, 25);
+			addPlatform(3654, -57, 2240, 25);
+			addPlatform(3536, -57, 25, 256);
+			addPlatform(3536, 199, 2368, 25);
 			
 			
 			
 			
 		}
 		
-		/*public function jumpCollisions():void
-		{
-			for (var i:int = 0; i < platformList.length; i++)
-			{
-				if (player.y < stage.stageHeight - plat1.height - player.height && (player.x + player.width < platformList[i].x  || player.x > platformList[i].x + platformList[i].width))
-				{
-					player.isJumping = true;
-				}
-				
-				if(player.isJumping)
-				{
-
-					/*if(player.hitTestObject(plat2))
-					{
-						trace("crash");
-						trace (player.y);
-						trace (player.ySpeed);
-						if(player.y < plat2.y + plat2.height)
-						{
-							trace("below");
-							player.ySpeed = player.y;
-							player.y = plat2.height + plat2.y;
-							
-							//trace(player.y);
-						}
-						else
-						{
-							trace("blah");//player.y = plat2.y + plat2.height/2 + player.height;
-						}
-					}
-					if(player.x + player.width > platformList[i].x  && player.x < platformList[i].x + platformList[i].width && !collision)
-					{
-						if (player.y > platformList[i].y + platformList[i].height)
-						{
-							if((player.y  - player.ySpeed) <= (platformList[i].y + platformList[i].height)) //below
-							{
-							
-								player.y = platformList[i].y + platformList[i].height;
-								player.ySpeed = 0;
-								player._position.y = player.y;
-								trace("below");
-								collision = true;
-							}
-						}
-						if(player.y < platformList[i].y) //above
-						{
-							if ((player.y  - player.ySpeed) > platformList[i].y - player.height)
-							{
-								player.y = platformList[i].y - player.height;
-								player.ySpeed = 0;
-								player._position.y = player.y;
-								player.isJumping = false;
-								collision = false;
-							}
-							//player.ySpeed = 0;
-							trace("above");
-						}
-					}
-					
-					//Wall Sliding
-					if (leftSlide && player.x <= 0 && player.ySpeed <=  0)
-					{
-						player.y -= player.ySpeed;
-						player.ySpeed -= (gravity - friction);
-						player._position.y = player.y;
-						player.isJumping = false;
-						trace("Slide");
-					}
-					else if (rightSlide && player.x + player.width >= stage.stageWidth && player.ySpeed <=  0) 
-					{
-						player.y -= player.ySpeed;
-						player.ySpeed -= (gravity - friction);
-						player._position.y = player.y;
-						player.isJumping = false;
-					}
-					else
-					{
-						player.y -= player.ySpeed;
-						player.ySpeed -= gravity;
-						player._position.y = player.y;
-						
-					}
-					
-					if (player.y >= stage.stageHeight - plat1.height - player.height)
-					{
-						player.isJumping = false;
-						player.y = stage.stageHeight - plat1.height - player.height;
-						player._position.y = player.y;
-						collision = false;
-					}					
-				}		
-			}
-		}*/
 	}
 
 }
