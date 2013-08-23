@@ -1,4 +1,5 @@
-﻿package  {
+﻿package code
+{
 	
 	import flash.display.MovieClip;
 	

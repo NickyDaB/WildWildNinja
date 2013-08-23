@@ -1,6 +1,7 @@
-package
+﻿package code
 {
 	import flash.display.MovieClip;
+	import code.screens.Game;
 	
 	public class PhysicsObject extends MovieClip
 	{
@@ -8,12 +9,12 @@ package
 		protected var _fwd : Vector2;
 		protected var _velocity : Vector2;
 		protected var _speed : Number;
-		protected var _document: Document;
+		protected var _game: Game;
 		
 		//constructor
-		public function PhysicsObject(aDoc:Document, anX:Number = 0, aY:Number = 0) {
+		public function PhysicsObject(aGame:Game, anX:Number = 0, aY:Number = 0) {
 			
-			_document = aDoc;
+			_game = aGame;
 			x = anX;
 			y = aY;
 			_position = new Vector2(x, y);

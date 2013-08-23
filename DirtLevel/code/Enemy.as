@@ -1,4 +1,6 @@
-﻿package  {
+﻿package code
+{
+	import code.screens.Game;
 	
 	public class Enemy extends MovementVehicle{
 		
@@ -42,9 +44,9 @@
 		public function get patrolPoint() {return _patrolPoint;}
 
 
-		public function Enemy(xPlace:int, yPlace:int, enemMan:EnemyManager, aDoc:Document, patrol:Number = 25, beha:Number = 0) {
+		public function Enemy(xPlace:int, yPlace:int, enemMan:EnemyManager, aGame:Game, patrol:Number = 25, beha:Number = 0) {
 			
-			super(aDoc,xPlace, yPlace);
+			super(aGame,xPlace, yPlace);
 			
 			
 			_enemyManager = enemMan;
@@ -52,7 +54,7 @@
 			x = xPlace;
 			y = yPlace;
 			
-			_document = aDoc;
+			_game = aGame;
 			
 			
 			
@@ -73,7 +75,7 @@
 			// Health Bar
 			_healthBar = new HealthBar(xPlace , yPlace - height + 48, health);
 			_healthBarMaxWidth = _healthBar.Green_bar.width;
-			_document.entityLayer.addChild(_healthBar);
+			_game.entityLayer.addChild(_healthBar);
 			
 		}
 		
@@ -100,17 +102,17 @@
 			//Charge
 			if(_type == 2){
 				
-				if(_document.player.x < x && _lookDirection == false ) {
+				if(_game.player.x < x && _lookDirection == false ) {
 						_lookDirection = true;
 						scaleX *= -1;
 					}
 						
-				if (_document.player.x >= x && _lookDirection == true) {
+				if (_game.player.x >= x && _lookDirection == true) {
 						_lookDirection = false;
 						scaleX *= -1;
 					}
 				
-				steeringForce.plusEquals(seek(_document.player._position));
+				steeringForce.plusEquals(seek(_game.player._position));
 			
 			}
 			
@@ -121,10 +123,10 @@
 				//trace(_lookDirection);
 				//Left
 				if(_lookDirection){
-					if(((_document.player.x > (x - 250)) && (_document.player.x <= x )) &&
-						((_document.player.y >= (y - 20)) && (_document.player.y < (y + 20)))){ // if player is infront of enemy's sight within 150 pixels
+					if(((_game.player.x > (x - 250)) && (_game.player.x <= x )) &&
+						((_game.player.y >= (y - 20)) && (_game.player.y < (y + 20)))){ // if player is infront of enemy's sight within 150 pixels
 						 // if player is within vertical sightline of enemy
-						steeringForce.plusEquals(seek(_document.player._position));
+						steeringForce.plusEquals(seek(_game.player._position));
 						return steeringForce;
 					}
 					else {
@@ -135,10 +137,10 @@
 				}
 				//right
 				else {
-					if(((_document.player.x < (x + 250)) && (_document.player.x >= x)) && 
-						((_document.player.y > y - 20) && (_document.player.y < y + 20))){ // if player is infront of enemy's sight within 150 pixels
+					if(((_game.player.x < (x + 250)) && (_game.player.x >= x)) && 
+						((_game.player.y > y - 20) && (_game.player.y < y + 20))){ // if player is infront of enemy's sight within 150 pixels
 						
-							steeringForce.plusEquals(seek(_document.player._position));
+							steeringForce.plusEquals(seek(_game.player._position));
 							return steeringForce;
 							//trace("found");
 					}
@@ -160,15 +162,15 @@
 				
 				_velocity = new Vector2();
 				
-				if(((_document.player.x > x - 250) && (_document.player.x < x + 250)) &&
-					((_document.player.y > y - 20) && (_document.player.y < y + 20))) {
+				if(((_game.player.x > x - 250) && (_game.player.x < x + 250)) &&
+					((_game.player.y > y - 20) && (_game.player.y < y + 20))) {
 					
-					if(_document.player.x < x && _lookDirection == false ) {
+					if(_game.player.x < x && _lookDirection == false ) {
 						_lookDirection = true;
 						scaleX *= -1;
 					}
 					
-					if (_document.player.x > x && _lookDirection == true) {
+					if (_game.player.x > x && _lookDirection == true) {
 						_lookDirection = false;
 						scaleX *= -1;
 					}
@@ -186,8 +188,8 @@
 				//trace(_lookDirection);
 				//Left
 				if(_lookDirection){
-					if(((_document.player.x > (x - 250)) && (_document.player.x <= x )) &&
-						((_document.player.y >= (y - 20)) && (_document.player.y < (y + 20)))){ // if player is infront of enemy's sight within 150 pixels
+					if(((_game.player.x > (x - 250)) && (_game.player.x <= x )) &&
+						((_game.player.y >= (y - 20)) && (_game.player.y < (y + 20)))){ // if player is infront of enemy's sight within 150 pixels
 						 // if player is within vertical sightline of enemy
 						trace("Immmmmmaaaa Shooootingggg");
 						_velocity = new Vector2();
@@ -200,8 +202,8 @@
 				}
 				//right
 				else {
-					if(((_document.player.x < (x + 250)) && (_document.player.x >= x)) && 
-						((_document.player.y > y - 20) && (_document.player.y < y + 20))){ // if player is infront of enemy's sight within 150 pixels
+					if(((_game.player.x < (x + 250)) && (_game.player.x >= x)) && 
+						((_game.player.y > y - 20) && (_game.player.y < y + 20))){ // if player is infront of enemy's sight within 150 pixels
 						
 							trace("Immmmmmaaaa Shooootingggg");
 							_velocity = new Vector2();
@@ -218,7 +220,7 @@
 			
 			
 			//draws line to show direction and speed (Based on velocity)
-			//_document.drawLine(position.x,position.y, (position.x + velocity.x), (position.y + velocity.y));
+			//_game.drawLine(position.x,position.y, (position.x + velocity.x), (position.y + velocity.y));
 			
 			// ------------------------------------------- NEEDS COLLISION
 			
@@ -251,7 +253,7 @@
 
 		public function destroy():void{
 			
-			_document.entityLayer.removeChild(_healthBar);
+			_game.entityLayer.removeChild(_healthBar);
 			
 		}
 

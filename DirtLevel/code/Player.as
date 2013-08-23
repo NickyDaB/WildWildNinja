@@ -1,10 +1,11 @@
-﻿package  
+﻿package code 
 {
 	 
 	//Author: Alex Williams
 	
 	import flash.display.Sprite;	
 	import flash.geom.Point;
+	import code.screens.Game;
 	
 	public class Player extends GameObject
 	{
@@ -34,7 +35,7 @@
 		private var compareY:Number;
 		
 		//Base Variables for Game
-		private var _document:Document;
+		private var _game:Game;
 		
 		//Hard Coded Locations for Hands
 		public var handX = x+width;
@@ -52,14 +53,14 @@
 		public function set sprint(run:Boolean) {_sprint = run;}
 		public function set position(pos:Vector2) {_position = pos;}
 		
-		public function Player(iXpos, iYpos, aDoc:Document){
+		public function Player(iXpos, iYpos, aGame:Game){
 			
 			
 			onPlatform = false;
 			jumping = true;
 			super(iXpos, iYpos);
 			_position = new Vector2(0, 0);
-			_document = aDoc;
+			_game = aGame;
 			
 			_wallSlide = false;
 			_sprint = false;
@@ -89,11 +90,11 @@
 			//graphics.drawCircle(width/2,y + height * 2,10);
 			//graphics.drawCircle(width/2,y,10);
 			
-			collisions(_document.platformList);
+			collisions(_game.platformList);
 			 
 			if(x >= stage.stageWidth/4) {
-				//_document.x -= xSpeed; //Breaks the parallax
-				_document.scrollGame(-xSpeed * 2,0);
+				//_game.x -= xSpeed; //Breaks the parallax
+				_game.scrollGame(-xSpeed * 2,0);
 			}
 			else {
 				x += xSpeed;
@@ -103,7 +104,7 @@
 				ySpeed -= gravity;
 				if(ySpeed <= 0) {falling = true; jumping = false;}
 				if(y <= (stage.stageHeight * .40)) {
-					_document.scrollGame(0,ySpeed);
+					_game.scrollGame(0,ySpeed);
 				}
 			}
 			
@@ -113,11 +114,11 @@
 			
 			
 			if(y <= (stage.stageHeight * .40)) {
-				//_document.y += ySpeed;
-				_document.scrollGame(0, -ySpeed);
+				//_game.y += ySpeed;
+				_game.scrollGame(0, -ySpeed);
 			}else if (jumping || falling) {
-				//_document.y += ySpeed * 1.3;
-				_document.scrollGame(0, ySpeed);
+				//_game.y += ySpeed * 1.3;
+				_game.scrollGame(0, ySpeed);
 			}
 			else {
 				y -= ySpeed;
@@ -131,7 +132,7 @@
 				jumping = true; //up
 				onPlatform = false;
 				ySpeed = 40;
-				//_document.scrollGame(0,ySpeed);
+				//_game.scrollGame(0,ySpeed);
 				gotoAndPlay("jump_mation");
 			}
 		}
@@ -184,7 +185,7 @@
 				
 			}
 			
-			//collisions(_document.platformList);
+			//collisions(_game.platformList);
 			
 		}
 		

@@ -1,16 +1,19 @@
-﻿package  
-{
+﻿package code.screens {
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.utils.getTimer;
 	
+	import code.*;
+	import code.screens.Screen;
 	/**
 	 * ...
 	 * @author Nick Buonarota
 	 */
-	public class Document extends Sprite
-	{
+	
+	public class Game extends Screen {
+
 		//MASTER VARIABLES
 		public var gameObjectList:Array; // List of every game object in the game
 		public var _environmentList:Array; //Holds references to Art Assests and non interacatable objects
@@ -64,9 +67,9 @@
 		private var _curTime: Number;
 		private var _dt: Number;
 		
-		public function Document() 
-		{
-			begin();
+		public function Game(doc:Document) {
+			// constructor code
+			super(doc);
 		}
 		
 		public function begin()
@@ -353,11 +356,6 @@
 			addPlatform(3654, -57, 2240, 25);
 			addPlatform(3536, -57, 25, 256);
 			addPlatform(3536, 199, 2368, 25);
-			
-			
-			
-			
 		}
-		
 	}
 }

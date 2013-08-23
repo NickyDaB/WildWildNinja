@@ -1,4 +1,4 @@
-﻿package 
+﻿package code
 {
 	
 	public class Vector2

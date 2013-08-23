@@ -1,5 +1,7 @@
-﻿package
+﻿package code
 {
+	import code.screens.Game;
+	
 	public class MovementVehicle extends PhysicsObject
 	{
 		protected var _maxSpeed: Number = 150;
@@ -7,9 +9,9 @@
 		protected var _mass: Number = 1.0;
 		protected var _radius:Number = 0;
 		
-		public function MovementVehicle(aDoc:Document, aX:Number = 0, aY:Number = 0, aSpeed:Number = 0) {
+		public function MovementVehicle(aGame:Game, aX:Number = 0, aY:Number = 0, aSpeed:Number = 0) {
 			
-			super(aDoc,aX,aY);
+			super(aGame,aX,aY);
 			//initialize velocity to zero so that movement only comes from applied force
 			_velocity = new Vector2();
 			

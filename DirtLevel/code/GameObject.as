@@ -1,4 +1,4 @@
-﻿package 
+﻿package code
 {
 	import flash.display.MovieClip;
 	import flash.ui.Keyboard;

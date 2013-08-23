@@ -1,5 +1,6 @@
-﻿package  
+﻿package code
 {
+	import code.screens.Game;
 	/**
 	 * ...
 	 * @author Nick Buonarota
@@ -21,7 +22,7 @@
 		//stupid shit to get it to work
 		public var _holderOfTheWeapon;
 		public var tempBullet:Bullet;
-		public var doc:Document;
+		public var game:Game;
 		public var tempHandX:Number;
 		public var tempHandY:Number;
 		
@@ -36,13 +37,13 @@
 		 * 
 		 */
 		
-		public function Weapon(holderOfWeapon, iDoc:Document){
+		public function Weapon(holderOfWeapon, iGame:Game){
 			super(holderOfWeapon.x + holderOfWeapon.handX, holderOfWeapon.y + holderOfWeapon.handY);
 			obeyGravity = false;
 			
 			_holderOfTheWeapon = holderOfWeapon;
 			
-			doc = iDoc;
+			game = iGame;
 			
 			barrelXpos = holderOfWeapon.handX;
 			barrelYpos = holderOfWeapon.handY;
@@ -94,9 +95,9 @@
 				
 				
 				tempBullet = new Bullet(_holderOfTheWeapon.x + tempHandX + barrelXpos, _holderOfTheWeapon.y + tempHandY + barrelYpos, damage, 10);
-				doc.gameObjectList.push(tempBullet);
-				doc.weaponList.push(tempBullet);
-				doc.entityLayer.addChild(tempBullet);
+				game.gameObjectList.push(tempBullet);
+				game.weaponList.push(tempBullet);
+				game.entityLayer.addChild(tempBullet);
 			}
 		}
 		
@@ -105,9 +106,9 @@
 			
 			
 			tempBullet = new Bullet(_holderOfTheWeapon.x ,_holderOfTheWeapon.y, damage, 10, direction);
-			doc.gameObjectList.push(tempBullet);
-			doc.enemyWeaponList.push(tempBullet);
-			doc.entityLayer.addChild(tempBullet);
+			game.gameObjectList.push(tempBullet);
+			game.enemyWeaponList.push(tempBullet);
+			game.entityLayer.addChild(tempBullet);
 			
 		}
 		

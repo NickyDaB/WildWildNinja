@@ -1,4 +1,6 @@
-﻿package  {
+﻿package code
+{
+	import code.screens.Game;
 	
 	public class PickAxeMan extends Enemy{
 		
@@ -6,10 +8,10 @@
 		
 		private var _type:Number;
 
-		public function PickAxeMan(xPlace:int, yPlace:int, enemMan:EnemyManager, aDoc:Document, 
+		public function PickAxeMan(xPlace:int, yPlace:int, enemMan:EnemyManager, aGame:Game, 
 			patrol:Number = 25, beha:Number = 0) {
 			// constructor code
-			super(xPlace, yPlace, enemMan, aDoc, patrol, beha);
+			super(xPlace, yPlace, enemMan, aGame, patrol, beha);
 			_lookDirection = true;
 				
 			_type = beha;
@@ -34,11 +36,11 @@
 			//trace(_lookDirection);
 				//Left
 				if(_lookDirection){
-					if(((_document.player.x > (x - 250)) && (_document.player.x <= x )) &&
-						((_document.player.y >= (y - 40)) && (_document.player.y < (y + 40)))){ // if player is infront of enemy's 
+					if(((_game.player.x > (x - 250)) && (_game.player.x <= x )) &&
+						((_game.player.y >= (y - 40)) && (_game.player.y < (y + 40)))){ // if player is infront of enemy's 
 																								//sight within 150 pixels
 						 // if player is within vertical sightline of enemy
-						steeringForce.plusEquals(seek(_document.player._position));
+						steeringForce.plusEquals(seek(_game.player._position));
 						return steeringForce;
 					}
 					else {
@@ -49,12 +51,12 @@
 				}
 				//right
 				else {
-					if(((_document.player.x < (x + 250)) && (_document.player.x >= x)) && 
+					if(((_game.player.x < (x + 250)) && (_game.player.x >= x)) && 
 
-						((_document.player.y > y - 40) && (_document.player.y < y + 40))){ // if player is infront of enemy's sight
+						((_game.player.y > y - 40) && (_game.player.y < y + 40))){ // if player is infront of enemy's sight
 																						   //within 150 pixels
 						
-							steeringForce.plusEquals(seek(_document.player._position));
+							steeringForce.plusEquals(seek(_game.player._position));
 							return steeringForce;
 							//trace("found");
 						}
@@ -77,17 +79,17 @@
 			//Straight Charge
 			if(_type == 2) {
 				
-				if(_document.player.x < x && _lookDirection == false ) {
+				if(_game.player.x < x && _lookDirection == false ) {
 						_lookDirection = true;
 						scaleX *= -1;
 					}
 						
-				if (_document.player.x >= x && _lookDirection == true) {
+				if (_game.player.x >= x && _lookDirection == true) {
 						_lookDirection = false;
 						scaleX *= -1;
 					}
 				
-				steeringForce.plusEquals(seek(_document.player._position));
+				steeringForce.plusEquals(seek(_game.player._position));
 					
 			}
 			

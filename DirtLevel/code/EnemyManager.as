@@ -1,4 +1,6 @@
-﻿package  {
+﻿package code
+{
+	import code.screens.Game;
 	
 	public class EnemyManager {
 		
@@ -13,26 +15,26 @@
 		private var _enemyList:Array;
 		private var _enemy:Enemy;
 		
-		private var _document:Document;
+		private var _game:Game;
 		
 		
 		//Accessors and Modifiers
 		public function get enemyList() {return _enemyList;}
-		//public function get Document() {return _document;}
+		//public function get Document() {return _game;}
 		
 		public function set currentLevel(level:int) {_currLvl = level;}
 		//public function set playerLocation(locate:int) {_playerLocation = locate;} ---> Probably don't need but made it anyway
 		
 		
 
-		public function EnemyManager(aDoc:Document) {
+		public function EnemyManager(aGame:Game) {
 			// constructor code
 			
-			_document = aDoc;
+			_game = aGame;
 			
 			_enemyList = new Array;
 			//413 = y 33 = x 
-			_enemy = new PickAxeMan(500,385,this, aDoc, 25, 1);
+			_enemy = new PickAxeMan(500,385,this, aGame, 25, 1);
 			//_enemy = new Enemy(500,385,this,aDoc,0);
 			_enemyList.push(_enemy);
 			
@@ -56,9 +58,9 @@
 		}
 		
 		public function spawnEnemy():void {
-			 _enemy = new Enemy(500,385,this, _document);
+			 _enemy = new Enemy(500,385,this, _game);
 			 _enemyList.push(_enemy);
-			 _document.entityLayer.addChild(_enemy);
+			 _game.entityLayer.addChild(_enemy);
 			
 		}
 		
@@ -81,20 +83,20 @@
 			{
 				_enemyList[i].update(dt);
 				
-				for (var j:int = 0; j < _document.weaponList.length; j++) {
-					if (_document.weaponList[j].x + _document.weaponList[j].width > _enemyList[i].x)
+				for (var j:int = 0; j < _game.weaponList.length; j++) {
+					if (_game.weaponList[j].x + _game.weaponList[j].width > _enemyList[i].x)
 					{
 						trace("OMG BULLET!");
-						_enemyList[i].lowerHealth = _document.weaponList[j].damage;
-						_document.entityLayer.removeChild(_document.weaponList[j]);
-						_document.weaponList.splice(j, 1);
+						_enemyList[i].lowerHealth = _game.weaponList[j].damage;
+						_game.entityLayer.removeChild(_game.weaponList[j]);
+						_game.weaponList.splice(j, 1);
 						
 					}
 				}
 				
 				if(_enemyList[i].health <= 0)
 				{
-					_document.entityLayer.removeChild(_enemyList[i]);
+					_game.entityLayer.removeChild(_enemyList[i]);
 					_enemyList[i].destroy();
 					_enemyList.splice(i,1);
 				}
