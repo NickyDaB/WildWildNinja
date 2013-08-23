@@ -24,6 +24,8 @@
 			  startBtn.addEventListener(MouseEvent.CLICK, onStart);
 			  creditsBtn.addEventListener(MouseEvent.CLICK, onCredits);
 			  helpBtn.addEventListener(MouseEvent.CLICK, onHelp);
+			  dirtRoomBtn.addEventListener(MouseEvent.CLICK, onDirtRoom);
+			  dirtLevelBtn.addEventListener(MouseEvent.CLICK, onDirtLevel);
 		}
 		
 		private function onStart(e:MouseEvent):void
@@ -39,6 +41,16 @@
 		private function onHelp(e:MouseEvent):void
 		{
 			  //doc.displayScreen(HelpScreen);
+		}
+		
+		private function onDirtRoom(e:MouseEvent):void
+		{
+			  //doc.displayScreen(DirtRoom);
+		}
+		
+		private function onDirtLevel(e:MouseEvent):void
+		{
+			  //doc.displayScreen(DirtLevel);
 		}
 		
 		public override function cleanUp()
