@@ -11,6 +11,12 @@
 	 */
 	public class Document extends Sprite
 	{
+		//MASTER VARIABLES
+		public var gameObjectList:Array; // List of every game object in the game
+		public var _environmentList:Array; //Holds references to Art Assests and non interacatable objects
+		public var temp:Number;
+		public var weaponList:Array; //temp list for all the bullets in the game
+		
 		//Layers - Handles proper depth of all art on screen
 		public var landscapeLayer:Sprite; //Clouds, Mountains
 		public var backgroundLayer:Sprite; //Open space for other details
@@ -20,28 +26,17 @@
 		public var entityLayer:Sprite; // Player, enemies, bullets
 		public var foregroundLayer:Sprite; // Deatils infront of everything else (Flowers, Dust Clouds)
 		
-		//Lists for Layers - Gives us access to the data to move art on screen
+		//Lists for Layers - A list of every given object on that sprite layer
 		public var landscapeList:Array;
-		public var landscapeShift:Number = .10; 
-		
 		public var backgroundList:Array;
-		public var backgroundShift:Number = .25; 		
-		
 		public var midgroundList:Array;
-		public var midgroundShift:Number = .5;
-		
 		public var detailList:Array;
-		public var detailShift:Number = .75; 		
-		
 		public var platformList:Array; //Holds all Platforms and interactable objects
-		public var platformShift:Number = .75;
-		
-		public var entityList:Array;		
-		
+		public var entityList:Array;	
 		public var foregroundList:Array;
-		public var foregroundShift:Number = 1.25;
 		
 		
+<<<<<<< HEAD
 		//MASTER VARIABLES
 		public var gameObjectList:Array;
 		public var _environmentList:Array; //Holds references to Art Assests and non interacatable objects
@@ -49,6 +44,16 @@
 		public var weaponList:Array;
 		public var enemyWeaponList:Array;
 		
+=======
+		//The "xShift" var is the number that we offset that layer's x movement by to give the illusion of depth of field through paralax scrolling. It gets multipled via the xScroll speed during update. 
+		//For example .10 would be move at 10% of xSpeed.
+		public var landscapeShift:Number = .10;
+		public var backgroundShift:Number = .25; 		
+		public var midgroundShift:Number = .5;
+		public var detailShift:Number = .75; 		
+		public var platformShift:Number = .75;
+		public var foregroundShift:Number = 1.25;
+>>>>>>> origin/Nick
 		
 		//Game Objects
 		public var testBlock:GameObject;
@@ -60,14 +65,6 @@
 		public var playerGunTest:characterStick;
 		public var weapon:Weapon;
 		//public var plat:Platform;
-		
-		/*
-		//Michelle TEST
-		public var gravity:int = 15;
-		public var friction:int = 10;
-		public var collision:Boolean = false;
-		public var leftSlide:Boolean = false;
-		public var rightSlide:Boolean = false;*/
 		
 		//AI Handler
 		public var enemManager:EnemyManager;
@@ -96,8 +93,6 @@
 			foregroundLayer = new Sprite(); // Deatils infront of everything else (Flowers, Dust Clouds)
 			
 			//add layers as children
-			
-			
 			addChild(landscapeLayer);
 			addChild(backgroundLayer);
 			addChild(midgroundLayer);
@@ -120,6 +115,7 @@
 			entityList = new Array();
 			foregroundList = new Array();
 			
+<<<<<<< HEAD
 			//floorFiller();
 			//EXAMPLE FORMAT:
 			// X = new X();
@@ -129,18 +125,20 @@
 			//gameObjectList.push(testBlock);
 			//addChild(testBlock);
 			player = new Player(60, 350, this);
+=======
+			player = new Player(20, 0, this);
+>>>>>>> bc7a2e3fbbacf85a36a628d8df4ff83ea14e2e9b
 			player.scaleX = .75;
 			player.scaleY = .75;
 			playerPos = new Vector2(60,375);
 			//gameObjectList.push(player);
 			entityLayer.addChild(player);
-			/*playerGunTest = new characterStick(stage.stageWidth/2, stage.stageHeight/2, 30.5, 20);
-			gameObjectList.push(playerGunTest);
-			addChild(playerGunTest);*/
+			
 			weapon = new Weapon(player, this);
 			gameObjectList.push(weapon);
 			entityLayer.addChild(weapon);
 			
+<<<<<<< HEAD
 			
 			//addPlatform(283, 256, 270, 20);
 			letsMakeALevel();
@@ -149,29 +147,37 @@
 			gameObjectList.push(platTestBlock32);
 			platformList.push(platTestBlock32);
 			platformLayer.addChild(platTestBlock32);*/
+=======
+			addPlatform(525, 150, 150, 20);
+			addPlatform(190, 260, 270, 20);
+			addPlatform(0, 455, 720, 25);
+>>>>>>> bc7a2e3fbbacf85a36a628d8df4ff83ea14e2e9b
 			
 			//Enemy Manager
 			enemManager = new EnemyManager(this);
 			entityLayer.addChild(enemManager.enemyList[0]);
 			
 			//Parllax Test
-			var cube1:Cube32 = new Cube32(stage.stageWidth/2,16); //Landscape
-			var cube2:Cube32 = new Cube32(stage.stageWidth/2,32); // Background
-			var cube3:Cube32 = new Cube32(stage.stageWidth/2,48); // Midground
-			var cube4:Cube32 = new Cube32(stage.stageWidth/2,64); // Detail
-			var cube5:Cube32 = new Cube32(stage.stageWidth/2,80); // Foreground
-			
-			landscapeLayer.addChild(cube1);
-			backgroundLayer.addChild(cube2);
-			midgroundLayer.addChild(cube3);			
-			detailLayer.addChild(cube4);
-			foregroundLayer.addChild(cube5);
-			
+			var cube1:Cube32 = new Cube32(stage.stageWidth / 2, 16); //Landscape
+			gameObjectList.push(cube1);
 			landscapeList.push(cube1);
+			landscapeLayer.addChild(cube1);
+			var cube2:Cube32 = new Cube32(stage.stageWidth / 2, 32); // Background
+			gameObjectList.push(cube2);
 			backgroundList.push(cube2);
-			midgroundList.push(cube3);			
+			backgroundLayer.addChild(cube2);
+			var cube3:Cube32 = new Cube32(stage.stageWidth / 2, 48); // Midground
+			gameObjectList.push(cube3);
+			midgroundList.push(cube3);	
+			midgroundLayer.addChild(cube3);	
+			var cube4:Cube32 = new Cube32(stage.stageWidth / 2, 64); // Detail
+			gameObjectList.push(cube4);
 			detailList.push(cube4);
+			detailLayer.addChild(cube4);
+			var cube5:Cube32 = new Cube32(stage.stageWidth / 2, 80); // Foreground
+			gameObjectList.push(cube5);
 			foregroundList.push(cube5);
+			foregroundLayer.addChild(cube5);
 			
 			//Event Listeners
 			stage.addEventListener(Event.ENTER_FRAME, update);
@@ -218,6 +224,7 @@
 				
 >>>>>>> origin/Alex
 			}
+			//q
 			if (event.keyCode == 81)
 			{
 				weapon.changeWeapon();
@@ -269,6 +276,10 @@
 			
 			player.update();
 			//move player in Y direction
+<<<<<<< HEAD
+=======
+			player.jumpCollisions(platformList);
+>>>>>>> bc7a2e3fbbacf85a36a628d8df4ff83ea14e2e9b
 			
 			//AI Timing for Movement
 			_curTime = getTimer( );
@@ -289,13 +300,15 @@
 			plat.y = yLoc;
 			plat.width = w;
 			plat.height = h;
-			platformLayer.addChild(plat)
+			gameObjectList.push(plat);
 			platformList.push(plat);
+			platformLayer.addChild(plat);
 		}
 		
 		public function scrollGame(xShift:Number, yShift:Number):void {
 			var i:int = 0;			
 			
+<<<<<<< HEAD
 			
 			////for(var i:int = 0; i < _environmentList.length; i++) {
 			//	
@@ -303,42 +316,38 @@
 			//		_environmentList[i].y += yShift;
 			//}
 			
+=======
+>>>>>>> bc7a2e3fbbacf85a36a628d8df4ff83ea14e2e9b
 			for(i = 0; i < landscapeList.length; i++) {
 					
 					landscapeList[i].x += xShift * landscapeShift;
 					landscapeList[i].y += yShift;
 				
 			}
-			
 			for(i = 0; i < backgroundList.length; i++) {
 					
 					backgroundList[i].x += xShift * backgroundShift;
 					backgroundList[i].y += yShift;
 				
 			}
-			
 			for(i = 0; i < midgroundList.length; i++) {
 					
 					midgroundList[i].x += xShift * midgroundShift;
 					midgroundList[i].y += yShift;
 				
 			}
-			
 			for(i = 0; i < detailList.length; i++) {
 					
 					detailList[i].x += xShift * detailShift;
 					detailList[i].y += yShift;
 				
 			}
-			
 			for(i = 0; i < platformList.length; i++) {
 					
 					platformList[i].x += xShift * platformShift;
 					platformList[i].y = platformList[i].y + yShift;
 				
 			}
-			
-			
 			for(i = 0; i < foregroundList.length; i++) {
 					
 					foregroundList[i].x += xShift * foregroundShift;
@@ -353,8 +362,8 @@
 			}
 			
 			enemManager.scrollEnemy(xShift, yShift);
-			
 		}
+<<<<<<< HEAD
 		
 		public function letsMakeALevel():void {
 			
@@ -405,6 +414,7 @@
 			
 		}
 		
+=======
+>>>>>>> bc7a2e3fbbacf85a36a628d8df4ff83ea14e2e9b
 	}
-
 }
