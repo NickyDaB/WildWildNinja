@@ -91,6 +91,8 @@
 			}else if (this.currentFrame == 2) {
 				trace("sword slash");
 			}else{
+				
+				
 				tempBullet = new Bullet(_holderOfTheWeapon.x + tempHandX + barrelXpos, _holderOfTheWeapon.y + tempHandY + barrelYpos, damage, 10);
 				doc.gameObjectList.push(tempBullet);
 				doc.weaponList.push(tempBullet);

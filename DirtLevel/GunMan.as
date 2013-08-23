@@ -9,6 +9,13 @@
 		public var handX:Number;
 		public var handY:Number;
 		
+<<<<<<< HEAD
+=======
+		public var clip:Number;		 
+		
+		private var _type:int;
+		
+>>>>>>> origin/Alex
 		public function GunMan(xPlace:int, yPlace:int, enemMan:EnemyManager, aDoc:Document, patrol:Number = 25, beha:Number = 3) {
 			// constructor code
 			super(xPlace, yPlace, enemMan, aDoc, patrol, beha);
@@ -29,8 +36,19 @@
 			handX = this.position.x - 12;
 			handY = this.position.y + 18;
 			
+<<<<<<< HEAD
 		}
 		
+=======
+			_type = beha;
+			
+		}
+		
+		override public function set behaviorType(action:Number) {_type = action}
+		
+		override public function get behaviorType() {return _type;}
+		
+>>>>>>> origin/Alex
 		override protected function calcSteeringForce():Vector2 {
 			//Shoot - Patrol
 			
@@ -38,7 +56,13 @@
 			_healthBar.y = this.position.y - height + 48;
 			
 			var steeringForce:Vector2 = new Vector2();
+<<<<<<< HEAD
 			
+=======
+	
+			if(_type == 0){
+				
+>>>>>>> origin/Alex
 				//trace(_lookDirection);
 				//Left
 				if(_lookDirection){
@@ -83,7 +107,75 @@
 						
 					}
 				}
+<<<<<<< HEAD
 				
+=======
+			}
+			
+			//idle
+			if(_type == 1) {
+				if(lookDirection) {
+						gunWeapon.x = this.position.x - 12;
+						gunWeapon.y = this.position.y + 18;
+				}
+				else {
+						gunWeapon.x = this.position.x + 32;
+						gunWeapon.y = this.position.y + 18;
+				}
+				 
+				_velocity = new Vector2();
+				return steeringForce;
+			}
+			
+			//idle - shoot
+			if(_type == 2) {
+				
+							//trace(_lookDirection);
+				//Left
+				if(_lookDirection){
+					
+					 
+					gunWeapon.x = this.position.x - 12;
+					gunWeapon.y = this.position.y + 18;
+					 
+					if(((_document.player.x > (x - 450)) && (_document.player.x <= x )) &&
+						((_document.player.y >= (y - 40)) && (_document.player.y < (y + 40)))){ // if player is infront of enemy's sight within 150 pixels
+						 // if player is within vertical sightline of enemy
+						gunWeapon.enemyShoot(false);
+						_velocity = new Vector2();
+					}
+					else {
+						
+						_velocity = new Vector2();
+						return steeringForce;
+					}
+				}
+				//right
+				else {
+					
+					
+					 
+					gunWeapon.x = this.position.x + 32;
+					gunWeapon.y = this.position.y + 18;
+					 
+					if(((_document.player.x < (x + 450)) && (_document.player.x >= x)) && 
+						((_document.player.y > y - 40) && (_document.player.y < y + 40))){ // if player is infront of enemy's sight within 150 pixels
+						
+							gunWeapon.enemyShoot(true);
+							_velocity = new Vector2();
+							//trace("found");
+					}
+					else {
+						
+						_velocity = new Vector2();
+						return steeringForce;
+						
+					}
+				}
+				
+			}
+			
+>>>>>>> origin/Alex
 				return steeringForce;
 				
 			}			

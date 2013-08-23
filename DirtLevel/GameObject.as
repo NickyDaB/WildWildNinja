@@ -18,13 +18,17 @@
 		}
 		
 		public function update():void {
+<<<<<<< HEAD
 			if (obeyGravity == true)
+=======
+		/*	if (obeyGravity == true)
+>>>>>>> origin/Alex
 			{
 				if (y < stage.stageHeight-(this.height/2)-32)
 				{
 					y = y + 8;
 				}
-			}
+			}*/
 		}
 		
 		

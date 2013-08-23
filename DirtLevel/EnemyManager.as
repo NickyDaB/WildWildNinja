@@ -32,7 +32,12 @@
 			
 			_enemyList = new Array;
 			//413 = y 33 = x 
+<<<<<<< HEAD
 			_enemy = new GunMan(500,385,this, aDoc);
+=======
+			_enemy = new PickAxeMan(500,385,this, aDoc, 25, 1);
+			//_enemy = new Enemy(500,385,this,aDoc,0);
+>>>>>>> origin/Alex
 			_enemyList.push(_enemy);
 			
 			
@@ -65,9 +70,9 @@
 			
 			_enemyList[0].behaviorType += 1;
 			
-			if(_enemyList[0].behaviorType == 6)
+			if(_enemyList[0].behaviorType == 4)
 			{
-				_enemyList[0].behaviorType = 1;
+				_enemyList[0].behaviorType = 0;
 			}
 			
 			trace(_enemyList[0].behaviorType);
