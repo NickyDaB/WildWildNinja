@@ -26,6 +26,7 @@
 			  helpBtn.addEventListener(MouseEvent.CLICK, onHelp);
 			  dirtRoomBtn.addEventListener(MouseEvent.CLICK, onDirtRoom);
 			  dirtLevelBtn.addEventListener(MouseEvent.CLICK, onDirtLevel);
+			  musicBtn.addEventListener(MouseEvent.CLICK, onMusicTest);
 		}
 		
 		private function onStart(e:MouseEvent):void
@@ -51,6 +52,12 @@
 		private function onDirtLevel(e:MouseEvent):void
 		{
 			  //doc.displayScreen(DirtLevel);
+		}
+		
+		private function onMusicTest(e:MouseEvent):void {
+			
+			doc.displayScreen(MusicTester);
+			
 		}
 		
 		public override function cleanUp()

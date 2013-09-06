@@ -28,10 +28,14 @@
 				currentScreen = game = new Game(this);
 				addChild(game);
 				game.begin();						
-			}else{						
+			}else if(s == MusicTester){						
+				currentScreen = new MusicTester(this);
+				addChild(currentScreen);
+			}else {
 				currentScreen = new s(this);
 				addChild(currentScreen);
-			}		
+			}	
+			
 			currentScreen.bringIn();
 		}
 	}
