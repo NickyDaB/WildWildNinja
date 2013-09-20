@@ -46,7 +46,7 @@
 		
 		private function onDirtRoom(e:MouseEvent):void
 		{
-			  //doc.displayScreen(DirtRoom);
+			  doc.displayScreen(DirtRoom);
 		}
 		
 		private function onDirtLevel(e:MouseEvent):void
