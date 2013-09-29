@@ -239,7 +239,7 @@
 			}
 			
 			player.update();
-			//move player in Y direction
+			
 			
 			//AI Timing for Movement
 			_curTime = getTimer( );
@@ -248,6 +248,7 @@
 			graphics.clear();
 			
 			enemManager.update(player.x,player.y, _dt);
+			//trace(player.x,player.y);
 			//END Alex Stuff
 			
 			

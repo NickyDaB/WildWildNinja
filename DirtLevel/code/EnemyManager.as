@@ -1,6 +1,7 @@
 ﻿package code
 {
 	import code.screens.Game;
+	import flash.sensors.Accelerometer;
 	
 	public class EnemyManager {
 		
@@ -10,7 +11,7 @@
 		private var _currLvl:int;
 		
 		//Notes player location in level to handle spawning enemies at proper time
-		private var _playerLocation:int;
+		private var _playerLocation:Vector2;
 		
 		private var _enemyList:Array;
 		private var _enemy:Enemy;
@@ -34,14 +35,14 @@
 			
 			_enemyList = new Array;
 			//413 = y 33 = x 
-			_enemy = new PickAxeMan(500,385,this, aGame, 25, 1);
+			_enemy = new PickAxeMan(500,385,this, aGame, 25, 0);
 			//_enemy = new Enemy(500,385,this,aDoc,0);
 			_enemyList.push(_enemy);
 			
 			
 			
 			_currLvl = 1;
-			_playerLocation = 0;
+			_playerLocation = new Vector2(_game.player.position.x, _game.player.position.y);
 			
 		}
 		
@@ -77,7 +78,10 @@
 		}
 		
 		public function update(playerX:int, playerY:int, dt:Number):void {
-			_playerLocation = playerX;
+			
+			_playerLocation.x = playerX;
+			_playerLocation.y = playerY;
+			
 			
 			for(var i:int = 0; i < _enemyList.length; i++)
 			{
@@ -100,7 +104,6 @@
 					_enemyList[i].destroy();
 					_enemyList.splice(i,1);
 				}
-				
 				
 				
 			}

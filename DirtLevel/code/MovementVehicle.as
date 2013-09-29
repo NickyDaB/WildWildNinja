@@ -53,7 +53,7 @@
 			var acceleration:Vector2 = Vector2.divide(steeringForce, _mass);
 			// add acceleration for time step to velocity
 			_velocity.plusEquals(Vector2.multiply(acceleration, dt));
-			//_velocity = _velocity.plusEquals(acceleration.timsEquals(dt));
+			//_velocity = _velocity.plusEquals(acceleration.timesEquals(dt));
 			// update speed to reflect new velocity
 			_speed = _velocity.magnitude( );
 			// update fwd to reflect new velocity 
@@ -109,6 +109,23 @@
 			var steeringForce:Vector2 = Vector2.subtract(desVel, _velocity);
 			//return steering force
 			steeringForce.y = 0;
+			return steeringForce;
+		}
+		
+		//dir: true = left, false = right
+		protected function step(dir:Boolean):Vector2 {
+			
+			var targPos:Vector2;
+			
+			if(dir)targPos = new Vector2(position.x - 1, position.y);
+			else targPos = new Vector2(position.x + 1, position.y);
+			
+			var desVel:Vector2 = Vector2.subtract(targPos,position);
+			desVel.normalize();
+			desVel.timesEquals(_maxSpeed/10);
+			
+			var steeringForce:Vector2 = Vector2.subtract(desVel, _velocity);
+			
 			return steeringForce;
 		}
 		

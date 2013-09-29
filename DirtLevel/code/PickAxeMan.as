@@ -32,15 +32,19 @@
 			
 			//Base: Patrol / Chase Down the Player / Swing PickAxe?
 			if(_type == 0) {
-
+				
 			//trace(_lookDirection);
 				//Left
 				if(_lookDirection){
+					//trace("search");
+					trace("x: " + x, "y: " + y);
 					if(((_game.player.x > (x - 250)) && (_game.player.x <= x )) &&
-						((_game.player.y >= (y - 40)) && (_game.player.y < (y + 40)))){ // if player is infront of enemy's 
+						((_game.player.y >= (y - 80)) && (_game.player.y < (y + 80)))){ // if player is infront of enemy's 
 																								//sight within 150 pixels
 						 // if player is within vertical sightline of enemy
-						steeringForce.plusEquals(seek(_game.player._position));
+						//steeringForce.plusEquals(seek(_game.player._position));
+						steeringForce.plusEquals(step(_lookDirection));
+						trace("here");
 						return steeringForce;
 					}
 					else {
@@ -51,12 +55,14 @@
 				}
 				//right
 				else {
+					//trace("search2");
 					if(((_game.player.x < (x + 250)) && (_game.player.x >= x)) && 
-
 						((_game.player.y > y - 40) && (_game.player.y < y + 40))){ // if player is infront of enemy's sight
 																						   //within 150 pixels
 						
-							steeringForce.plusEquals(seek(_game.player._position));
+							//steeringForce.plusEquals(seek(_game.player._position));
+							steeringForce.plusEquals(step(_lookDirection));
+							trace("here");
 							return steeringForce;
 							//trace("found");
 						}
